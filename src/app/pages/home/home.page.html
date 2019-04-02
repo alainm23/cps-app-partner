@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-button>
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="ambulance" class="ambulance-card" (click)="goAmbulanceCheck ()">
+    <ion-item color="danger" *ngIf="ambulance?.state === 'created'">
+      <ion-avatar slot="start">
+        <img src="assets/imgs/ambulance.png">
+      </ion-avatar>
+
+      <ion-label text-wrap >
+        <ion-text color="white">
+          <h3><b>Ambulancia solicitada</b></h3>
+        </ion-text>
+        <p>Aun por confirmar</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+
+    <ion-item color="blue" *ngIf="ambulance?.state === 'approved'">
+      <ion-avatar item-start>
+        <img src="assets/imgs/ambulance.png">
+      </ion-avatar>
+      <h2 class="label-white"><b>Ambulancia solicitada</b></h2>
+      <p text-wrap>
+        Aprobado, esperando que la ambulancia se ponga en camino
+      </p>
+
+      <button ion-button item-end outline clear icon-only>
+        <ion-icon color="light" name="arrow-round-forward"></ion-icon>
+      </button>
+    </ion-item>
+
+    <ion-item color="green" *ngIf="ambulance?.state === 'sent'">
+        <ion-avatar item-start>
+          <img src="assets/imgs/ambulance.png">
+        </ion-avatar>
+        <h2 class="label-white"><b>Ambulancia solicitada</b></h2>
+        <p text-wrap>
+          Enviado, Ambulancia en camino
+        </p>
+
+        <button ion-button item-end outline clear icon-only>
+          <ion-icon color="light" name="arrow-round-forward"></ion-icon>
+        </button>
+    </ion-item>
+  </ion-card>
+
+  <div text-center>
+    <h2 text-wrap class="title-color">Hola Alain Y. Meza Huaman</h2>
+    <h4 title-color>Partner: PuntoPro</h4>
+  </div>
+
+  <div text-center>
+    <h3 text-wrap class="subtitle-color">¿En qué le podemos ayudar?</h3>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
+        <ion-card class="home-item" text-center (click)="goEmergencyPage ()">
+          <img class="logo-css" src="assets/icono.svg">
+          <h5 text-wrap>Emergencia</h5>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
+        <ion-card class="home-item" text-center (click)="GoAppointmentSpecialty ()">
+          <img class="logo-css" src="assets/icono.svg">
+          <h5 text-wrap>Hacer una cita</h5>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
+        <ion-card class="home-item" text-center (click)="goSupplies ()">
+          <img class="logo-css" src="assets/icono.svg">
+          <h5 text-wrap>Suministros</h5>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
+        <ion-card class="home-item" text-center (click)="goCPSRadio ()">
+          <img class="logo-css" src="assets/icono.svg">
+          <h5 text-wrap>Radio CPS</h5>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
+        <ion-card class="home-item" text-center (click)="goBlogNews ()">
+          <h4>Blog, noticias & articulos</h4>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

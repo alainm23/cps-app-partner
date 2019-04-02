@@ -1,0 +1,128 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+      <ion-row>
+        <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+          <div text-center>
+            <h1 class="title-label">Contactanos</h1>
+          </div>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size-xs="12" size-sm="6">
+                <ion-button expand="block" text-center color="red" (click)="goSendAmbulance ()">
+                  <img class="button-image" src="assets/imgs/ambulance.png">
+                  Enviar una ambulancia
+                </ion-button>
+              </ion-col>
+              <ion-col size-xs="12" size-sm="6">
+                <ion-button expand="block" text-center color="blue" (click)="callNow ()">
+                  <img class="button-image" src="assets/imgs/call.png">
+                  Llámanos
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+          <ion-item text-center no-lines>
+            <h2>También nos puedes contactar vía:</h2>
+          </ion-item>
+          
+          <ion-grid>
+            <ion-row>
+              <ion-col size="4" text-center (tap)="chatWhatsapp ()">
+                <img src="../../assets/imgs/wa.png">
+              </ion-col>
+                        
+              <ion-col size="4" text-center (tap)="sendSMS ()">
+                <img src="../../assets/imgs/sms.png">
+              </ion-col>
+
+              <ion-col size="4" text-center (tap)="chatMessenger ()">
+                <img src="../../assets/imgs/messenger.png">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <div text-center>
+            <h2 class="color-red" (tap)="callNow ()">¿Emergencia? Llamar</h2>
+            <h3 class="color-red" (tap)="callNow ()">(+51) 989 316 622</h3>
+          </div>
+        </ion-col>
+        <ion-col csize-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
+          <div text-center>
+            <h2 class="color-gray"><b>¿No es tan urgente?</b></h2>
+            <p text-wrap>
+              Escríbanos una nota con sus datos y nos pondremos en contacto con usted lo antes posible.
+            </p>
+          </div>
+        
+          <form padding [formGroup]="form">
+            <ion-list>
+              <ion-item color="entry-color">
+                <ion-input type="text" formControlName="fullname" placeholder="Nombre comleto"></ion-input>
+              </ion-item>
+              
+              <div *ngIf="form.controls.fullname.errors?.required">
+                <small class="color-red">* Este campo es necesario</small>
+              </div>
+
+              <ion-item color="entry-color">
+                <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+              </ion-item>
+              
+              <div *ngIf="form.controls.email.errors?.required">
+                <small class="color-red">* Este campo es necesario</small>
+              </div>
+
+              <div *ngIf="form.controls.email.errors?.email">
+                <small class="color-red">* Ingrese un correo valido</small>
+              </div>
+
+              <ion-item color="entry-color">
+                <ion-input type="number" formControlName="phone_number" maxlength="9" placeholder="Numero de telefono"></ion-input>
+              </ion-item>
+              
+              <div *ngIf="form.controls.phone_number.errors?.required">
+                <small class="color-red">* Este campo es necesario</small>
+              </div>
+
+              <ion-item color="entry-color">
+                <ion-textarea row="5" type="text" formControlName="message" placeholder="Mensaje"></ion-textarea>
+              </ion-item>
+
+              <div *ngIf="form.controls.message.errors?.required">
+                <small class="color-red">* Este campo es necesario</small>
+              </div>
+            </ion-list>
+
+            <div text-center>
+              <ion-button class="no-border"  block color="blue" (click)="submit ()" [disabled]="!form.valid">
+                Enviar
+              </ion-button>
+            </div>
+          </form>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</ion-content>

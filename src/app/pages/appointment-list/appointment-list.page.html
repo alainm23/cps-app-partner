@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="appointments?.length > 0">
+    <ion-item *ngFor="let item of appointments" (click)="goAppointmentDetailPage (item.data.key)">
+      <ion-label text-wrap >
+        <ion-text color="dark">
+          <h3>{{ item?.dataAppointment.specialty_name }}</h3>
+        </ion-text>
+        <p>{{ item?.dataAppointment.date }}</p>
+        <ion-text color="dark">
+          <p>{{ item?.dataAppointment.hour }}</p>
+        </ion-text>
+      </ion-label>
+    </ion-item>
+  </div>
+  <div class="window-center" *ngIf="!appointments?.length > 0">
+    <ion-item no-lines text-center>
+      <ion-grid>
+        <ion-row center>
+          <ion-col>
+            <h1>Ninguna Cita</h1>
+            <p>No tiene ninguna cita programada</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </div>
+</ion-content>

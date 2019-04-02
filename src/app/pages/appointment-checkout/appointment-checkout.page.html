@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div text-center>
+          <h2 class="title-label">Personal details</h2>
+        </div>
+        
+        <form [formGroup]="form">
+          <ion-list>
+            <ion-item color="entry-color">
+              <ion-input type="text" formControlName="name" placeholder="Patient name"></ion-input>
+            </ion-item>
+
+            <ion-item color="entry-color">
+              <ion-input type="text" formControlName="phone_number" placeholder="Phone number"></ion-input>
+            </ion-item>
+
+            <ion-item color="entry-color">
+              <ion-label>Seleccionar nacionalidad</ion-label>
+              <ion-select interface="popover" padding-right formControlName="nationality" (ngModelChange)="onSelectChange($event)">
+                <ion-select-option value="peruano">Peruano</ion-select-option>
+                <ion-select-option value="extranjero">Extranjero</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <ion-item color="entry-color">
+              <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
+            </ion-item>
+
+            <ion-item color="entry-color">
+              <ion-textarea rows="3" formControlName="address" placeholder="Address"></ion-textarea>
+            </ion-item>
+
+            <ion-item color="entry-color">
+              <ion-textarea rows="3" formControlName="message" placeholder="Any message?"></ion-textarea>
+            </ion-item>
+
+            <div padding-top text-center >
+              <h2>Mi Cita</h2>
+              <h3>{{ final_data.nombre }}</h3>
+              <h4>{{ final_data.fecha }} - {{ final_data.hor_con }}</h4>
+
+              <div *ngIf="false">
+                <h2>Price</h2>
+                <p>S./{{ price }}</p>
+              </div>
+            </div>
+
+            <ion-row>
+              <ion-col size=2>
+                <ion-item>
+                  <ion-checkbox color="blue" formControlName="terms_conditions" form item-start></ion-checkbox>
+                </ion-item>
+                
+              </ion-col>
+              <ion-col size=10 align-self-center>
+                <ion-label>Acepto los <a href="http://preview.cps.com.pe/es/terms">terminos y condiciones</a></ion-label>
+              </ion-col>
+            </ion-row>            
+            <div text-center >
+              <ion-button [disabled]="!form.valid" color="blue" (click)="openCheckout ()">
+                Book Now
+              </ion-button>
+            </div>
+          </ion-list>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

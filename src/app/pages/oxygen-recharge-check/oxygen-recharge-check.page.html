@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div text-center>
+          <h2 text-wrap class="title-color">Recarga de oxigeno</h2>
+          <h4 title-color>{{ _object?.user_company_name }}</h4>
+        </div>
+
+        <ion-list>
+          <ion-item-divider>
+            <ion-label>
+              <b>Fecha</b>
+            </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            {{ _object?.created_date }}
+          </ion-item>
+
+          <ion-item-divider>
+            <ion-label>
+              <b>Cliente</b>
+            </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            {{ _object?.user_fullname }}
+          </ion-item>
+
+          <ion-item-divider>
+            <ion-label>
+              <b>Tamaño de oxygeno</b>
+            </ion-label>
+          </ion-item-divider>
+          <ion-item *ngIf="_object?.oxygen_size === 'small'">
+            Tamaño de oxigeno: Pequeño
+          </ion-item>
+
+          <ion-item *ngIf="_object?.oxygen_size !== 'small'">
+            Tamaño de oxigeno: Grande
+          </ion-item>
+
+          <ion-item-divider>
+            <ion-label>
+              <b>Tiempo</b>
+            </ion-label>
+          </ion-item-divider>
+          <ion-item *ngIf="_object?.time === 'ahora'">
+            Ahora
+          </ion-item>
+
+          <ion-item *ngIf="_object?.time === '2_horas'">
+            En 2 horas
+          </ion-item>
+
+          <ion-item *ngIf="_object?.time === '3_horas'">
+            En 3 horas
+          </ion-item>
+        </ion-list>
+
+        <div text-center>
+          <ion-button (click)="edit ()" color="blue">
+            Editar
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

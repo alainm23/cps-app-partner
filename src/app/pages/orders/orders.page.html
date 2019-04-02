@@ -1,0 +1,287 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item color="blue">
+      <ion-label>Recargas de oxigeno</ion-label>
+      <ion-select interface="popover" (ionChange)="change ($event, 'oxygen_recharge')" [value]="oxygen_recharge_selec">
+        <ion-select-option value="s">Solicitados</ion-select-option>
+        <ion-select-option value="c">Cancelados</ion-select-option>
+        <ion-select-option value="f">Finalizados</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="oxygen_recharge_selec === 's' && oxygen_recharge_created" (click)="checkOxygenRecharge (oxygen_recharge_created)">
+      <ion-label text-wrap >
+        <ion-text color="dark">
+          <h3>Solicitado</h3>
+        </ion-text>
+        <p>{{ getRelativeDateTime (oxygen_recharge_created?.created_date) }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success">Solicitado</ion-badge>
+    </ion-item>
+
+    <div *ngIf="oxygen_recharge_selec === 'c'">
+      <ion-item *ngFor="let item of oxygen_recharge_canceled" (click)="checkOxygenRecharge (item.dataGeneral)">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="danger">Cancelado</ion-badge>
+      </ion-item>
+    </div>
+
+    <div *ngIf="oxygen_recharge_selec === 'f'" (click)="checkOxygenRecharge (item.dataGeneral)">
+      <ion-item *ngFor="let item of oxygen_recharge_finalized">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success">Finalizado</ion-badge>
+      </ion-item>
+    </div>
+
+    <ion-item color="blue">
+      <ion-label>Material publicitario</ion-label>
+      <ion-select interface="popover" (ionChange)="change ($event, 'ads_material')" [value]="ads_material_selec">
+        <ion-select-option value="s">Solicitados</ion-select-option>
+        <ion-select-option value="c">Cancelados</ion-select-option>
+        <ion-select-option value="f">Finalizados</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="ads_material_selec === 's' && ads_material_created" (click)="checkAdsMaterial (ads_material_created)">
+      <ion-label text-wrap >
+        <ion-text color="dark">
+          <h3>Solicitado</h3>
+        </ion-text>
+        <p>{{ getRelativeDateTime (ads_material_created?.created_date) }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success">Solicitado</ion-badge>
+    </ion-item>
+
+    <div *ngIf="ads_material_selec === 'c'">
+      <ion-item *ngFor="let item of ads_material_canceled" (click)="checkAdsMaterial (item.dataGeneral)">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="danger">Cancelado</ion-badge>
+      </ion-item>
+    </div>
+
+    <div *ngIf="ads_material_selec === 'f'" (click)="checkAdsMaterial (item.dataGeneral)">
+      <ion-item *ngFor="let item of ads_material_finalized">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success">Finalizado</ion-badge>
+      </ion-item>
+    </div>
+
+    <ion-item color="blue">
+      <ion-label>Capacitaciones</ion-label>
+      <ion-select interface="popover" (ionChange)="change ($event, 'trainings')" [value]="trainings_selec">
+        <ion-select-option value="s">Solicitados</ion-select-option>
+        <ion-select-option value="c">Cancelados</ion-select-option>
+        <ion-select-option value="f">Finalizados</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="trainings_selec === 's' && trainings_created" (click)="checkTrainings (trainings_created)">
+      <ion-label text-wrap >
+        <ion-text color="dark">
+          <h3>Solicitado</h3>
+        </ion-text>
+        <p>{{ getRelativeDateTime (trainings_created?.created_date) }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success">Solicitado</ion-badge>
+    </ion-item>
+
+    <div *ngIf="trainings_selec === 'c'">
+      <ion-item *ngFor="let item of trainings_canceled" (click)="checkTrainings (item.dataGeneral)">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="danger">Cancelado</ion-badge>
+      </ion-item>
+    </div>
+
+    <div *ngIf="trainings_selec === 'f'" (click)="checkTrainings (item.dataGeneral)">
+      <ion-item *ngFor="let item of trainings_finalized">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success">Finalizado</ion-badge>
+      </ion-item>
+    </div>
+
+    <ion-item color="blue">
+      <ion-label>Visitas de representacion</ion-label>
+      <ion-select interface="popover" (ionChange)="change ($event, 'visits')" [value]="visits_selec">
+        <ion-select-option value="s">Solicitados</ion-select-option>
+        <ion-select-option value="c">Cancelados</ion-select-option>
+        <ion-select-option value="f">Finalizados</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="visits_selec === 's' && visits_created" (click)="checkVisits (visits_created)">
+      <ion-label text-wrap >
+        <ion-text color="dark">
+          <h3>Solicitado</h3>
+        </ion-text>
+        <p>{{ getRelativeDateTime (visits_created?.created_date) }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success">Solicitado</ion-badge>
+    </ion-item>
+
+    <div *ngIf="visits_selec === 'c'">
+      <ion-item *ngFor="let item of visits_canceled" (click)="checkVisits (item.dataGeneral)">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="danger">Cancelado</ion-badge>
+      </ion-item>
+    </div>
+
+    <div *ngIf="visits_selec === 'f'" (click)="checkVisits (item.dataGeneral)">
+      <ion-item *ngFor="let item of visits_finalized">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success">Finalizado</ion-badge>
+      </ion-item>
+    </div>
+
+
+
+
+    <ion-item color="blue">
+      <ion-label>Botiquin</ion-label>
+      <ion-select interface="popover" (ionChange)="change ($event, 'medical_kit')" [value]="medical_kit_selec">
+        <ion-select-option value="s">Solicitados</ion-select-option>
+        <ion-select-option value="c">Cancelados</ion-select-option>
+        <ion-select-option value="f">Finalizados</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="medical_kit_selec === 's' && medical_kit_created" (click)="checkMedicalKit (visits_created)">
+      <ion-label text-wrap >
+        <ion-text color="dark">
+          <h3>Solicitado</h3>
+        </ion-text>
+        <p>{{ getRelativeDateTime (visits_created?.created_date) }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success">Solicitado</ion-badge>
+    </ion-item>
+
+    <div *ngIf="medical_kit_selec === 'c'">
+      <ion-item *ngFor="let item of medical_kit_canceled" (click)="checkMedicalKit (item.dataGeneral)">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="danger">Cancelado</ion-badge>
+      </ion-item>
+    </div>
+
+    <div *ngIf="medical_kit_selec === 'f'" (click)="checkMedicalKit (item.dataGeneral)">
+      <ion-item *ngFor="let item of medical_kit_finalized">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success">Finalizado</ion-badge>
+      </ion-item>
+    </div>
+
+
+
+    <ion-item color="blue">
+      <ion-label>Examenes ocupacionales</ion-label>
+      <ion-select interface="popover" (ionChange)="change ($event, 'occupational_exam')" [value]="occupational_exam_selec">
+        <ion-select-option value="s">Solicitados</ion-select-option>
+        <ion-select-option value="c">Cancelados</ion-select-option>
+        <ion-select-option value="f">Finalizados</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="occupational_exam_selec === 's' && occupational_exam_created" (click)="checkOccupationalExam (occupational_exam_created)">
+      <ion-label text-wrap >
+        <ion-text color="dark">
+          <h3>Solicitado</h3>
+        </ion-text>
+        <p>{{ getRelativeDateTime (occupational_exam_created?.created_date) }}</p>
+      </ion-label>
+      <ion-badge slot="end" color="success">Solicitado</ion-badge>
+    </ion-item>
+
+    <div *ngIf="occupational_exam_selec === 'c'">
+      <ion-item *ngFor="let item of occupational_exam_canceled" (click)="checkOccupationalExam (item.dataGeneral)">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="danger">Cancelado</ion-badge>
+      </ion-item>
+    </div>
+
+    <div *ngIf="occupational_exam_selec === 'f'" (click)="checkOccupationalExam (item.dataGeneral)">
+      <ion-item *ngFor="let item of occupational_exam_finalized">
+        <ion-label text-wrap >
+          <ion-text color="dark">
+            <h3>{{ item?.dataGeneral.user_company_name }}</h3>
+          </ion-text>
+          <p>{{ getRelativeDateTime (item?.dataGeneral.created_date) }}</p>
+        </ion-label>
+        <ion-badge slot="end" color="success">Finalizado</ion-badge>
+      </ion-item>
+    </div>
+  </ion-list>
+</ion-content>

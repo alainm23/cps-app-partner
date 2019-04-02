@@ -1,0 +1,42 @@
+<ion-app>
+  <ion-menu side="end">
+    <ion-header>
+      <ion-toolbar color="blue">
+        <ion-title>Partner</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item>Inicio</ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="goAppointmentListPage ()">Mis citas</ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="goOrders ()">Mis pedidos</ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item>Administrar personal</ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item>Enviar consultas</ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item>Ver coberturas plan VIP</ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item>Salir</ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet main></ion-router-outlet>
+</ion-app>

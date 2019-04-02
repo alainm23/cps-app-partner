@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div text-center>
+    <h1 class="title-label">¿Como podemos ayudarte?</h1>
+    <p padding-top>Elija un síntoma o una especialidad</p>
+  </div>
+  
+  <ion-grid>
+    <ion-row>
+      <ion-col padding-bottom size-xs="6" size-sm="4" size-md="4" size-lg="4" size-xl="3" *ngFor="let item of especialidades">
+        <ion-card class="home-item" [id]="'es-' + item.id" (click)="select (item)">
+          <ion-item lines="none" text-center>
+            <img [src]="url_imagenes + item.imagen_esp"/>
+          </ion-item>
+          <div text-center>
+            <h4 class="title-label">{{ item.nombre }}</h4>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

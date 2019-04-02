@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="5" class="ion-align-self-center">
+        <div text-center>
+          <img src="http://lorempixel.com/128/128/sports">  
+        </div>
+      </ion-col>
+      
+      <ion-col size="2" class="ion-align-self-center">
+        <div text-center>
+          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
+        </div>
+      </ion-col>
+
+      <ion-col size="5" class="ion-align-self-center">
+        <div text-center>
+          <h2 *ngIf="is_edit === true" text-wrap class="title-color">Editar Recarga de oxigeno</h2>
+          <h2 *ngIf="is_edit === false" text-wrap class="title-color">Recarga de oxigeno</h2>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <form [formGroup]="form">
+          <ion-segment color="blue" mode="ios" formControlName="oxygen_size">
+            <ion-segment-button class="sc-ion-card-md-h" value="small">
+              <ion-label>Pequeño</ion-label>
+            </ion-segment-button>
+            <ion-segment-button class="sc-ion-card-md-h" value="big">
+              <ion-label>Grande</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+
+          <ion-radio-group formControlName="time">
+            <ion-list-header>
+              <ion-label>Cuando lo necesita</ion-label>
+            </ion-list-header>
+
+            <ion-item>
+              <ion-label>Inmediato</ion-label>
+              <ion-radio slot="start" value="ahora" checked></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>En 2 horas</ion-label>
+              <ion-radio slot="start" value="2_horas"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>En 6 horas</ion-label>
+              <ion-radio slot="start" value="3_horas"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+
+          <div text-center margin-top>
+            <ion-button *ngIf="is_edit === true" color="blue" [disabled]="!form.valid" (click)="submit ()">
+              Actualizar
+            </ion-button>
+
+            <ion-button *ngIf="is_edit === false" color="blue" [disabled]="!form.valid" (click)="submit ()">
+              Pedir
+            </ion-button>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

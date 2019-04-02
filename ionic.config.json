@@ -1,0 +1,7 @@
+{
+  "name": "cps-app-partner",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

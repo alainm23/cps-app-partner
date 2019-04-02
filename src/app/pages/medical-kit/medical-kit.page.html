@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="5" class="ion-align-self-center">
+        <div text-center>
+          <img src="http://lorempixel.com/128/128/sports">  
+        </div>
+      </ion-col>
+      
+      <ion-col size="2" class="ion-align-self-center">
+        <div text-center>
+          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
+        </div>
+      </ion-col>
+
+      <ion-col size="5" class="ion-align-self-center">
+        <div text-center>
+          <h2 *ngIf="is_edit === true" text-wrap class="title-color">
+            Editar botiquín
+          </h2>
+          <h2 *ngIf="is_edit === false" text-wrap class="title-color">
+            Botiquín
+          </h2>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-row>
+            <ion-col>
+              <ion-item lines="none" size="6" [color]="color_01" (click)="change_value (1)">
+                <p class="text-center">Botiquin nuevo o adicional</p>
+              </ion-item>
+            </ion-col>
+
+            <ion-col>
+              <ion-item lines="none" size="6" [color]="color_02" (click)="change_value (2)">
+                <p class="text-center">Brigadas de emergencia</p>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="8" offset="2">
+              <ion-button [disabled]="item_01 === false && item_02 === false" *ngIf="is_edit === true" expand="block" color="blue" (click)="submit ()">
+                Actualizar
+              </ion-button>
+              <ion-button [disabled]="item_01 === false && item_02 === false" *ngIf="is_edit === false" expand="block" color="blue" (click)="submit ()">
+                Pedir
+              </ion-button>  
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

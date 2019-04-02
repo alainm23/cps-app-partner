@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
+        <div text-center>
+          <h2 class="title-label">Enviar una ambulancia</h2>
+        </div>
+        
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Dirección</ion-label>
+            <ion-input formControlName="address" placeholder="Direccion"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Telefono celular</ion-label>
+            <ion-input formControlName="phone_number" placeholder="Numero de celular"></ion-input>
+          </ion-item>
+
+          <ion-card margin class="map-class">
+            <div #map id="map"></div>
+          </ion-card>
+          
+          <div text-right class="margin-right">
+            <p (click)="getCurrentLocation ()">Posicion actual</p>
+          </div>
+        </ion-list>
+        
+        <ion-grid>
+          <ion-row>
+            <ion-col size="8" offset="2">
+              <ion-button expand="block" color="blue" [disabled]="!form.valid" (click)="goConfirmAmbulance ()">
+                Ordenar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </form>
+</ion-content>
