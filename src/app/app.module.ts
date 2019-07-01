@@ -19,13 +19,31 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
  
 // Rest
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 // Storage
 import { IonicStorageModule } from '@ionic/storage';
+import { AppAvailability } from '@ionic-native/app-availability/ngx';
 
 // Geolocation
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+
+// OneSignal
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+
+// Call
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
+// Share
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { Device } from '@ionic-native/device/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
+
+// Modals
+import { SelectCountriesPageModule } from './modals/select-countries/select-countries.module';
+import { PaymentPageModule } from './modals/payment/payment.module';
+import { SubcategoriasPageModule } from './modals/subcategorias/subcategorias.module';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -33,18 +51,29 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase, 'Clínica Peruano Suiza - Partner'),
+    AngularFireModule.initializeApp(environment.firebase, 'Clínica Peruano Suiza - Corporativo'),
     AngularFirestoreModule,
     AngularFireAuthModule,
     FormsModule, 
     ReactiveFormsModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+
+    //Modals
+    SelectCountriesPageModule,
+    PaymentPageModule,
+    SubcategoriasPageModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    OneSignal,
+    SocialSharing,
+    AppAvailability,
     Geolocation,
+    Device,
+    AppVersion,
+    CallNumber,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

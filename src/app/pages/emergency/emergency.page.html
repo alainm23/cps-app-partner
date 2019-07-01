@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
-      <ion-back-button color="blue"></ion-back-button>
+      <ion-back-button text="" color="blue"></ion-back-button>
     </ion-buttons>
 
     <ion-buttons slot="start">
@@ -24,7 +24,7 @@
       <ion-row>
         <ion-col size-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
           <div text-center>
-            <h1 class="title-label">Contactanos</h1>
+            <h1 class="title-label">¿Tienes una emergencia?</h1> 
           </div>
 
           <ion-grid>
@@ -51,22 +51,22 @@
           
           <ion-grid>
             <ion-row>
-              <ion-col size="4" text-center (tap)="chatWhatsapp ()">
+              <ion-col size="4" text-center (click)="chatWhatsapp ()">
                 <img src="../../assets/imgs/wa.png">
               </ion-col>
                         
-              <ion-col size="4" text-center (tap)="sendSMS ()">
+              <ion-col size="4" text-center (click)="sendSMS ()">
                 <img src="../../assets/imgs/sms.png">
               </ion-col>
 
-              <ion-col size="4" text-center (tap)="chatMessenger ()">
+              <ion-col size="4" text-center (click)="chatMessenger ()">
                 <img src="../../assets/imgs/messenger.png">
               </ion-col>
             </ion-row>
           </ion-grid>
           <div text-center>
-            <h2 class="color-red" (tap)="callNow ()">¿Emergencia? Llamar</h2>
-            <h3 class="color-red" (tap)="callNow ()">(+51) 989 316 622</h3>
+            <h2 no-margin no-padding class="color-red" (click)="callNow ()">¿Emergencia? Llamar</h2>
+            <h3 no-margin no-padding class="color-red" (click)="callNow ()">(+51) 989 316 622</h3>
           </div>
         </ion-col>
         <ion-col csize-xs="12" size-sm="12" size-md="6" size-lg="6" size-xl="6">
@@ -80,39 +80,39 @@
           <form padding [formGroup]="form">
             <ion-list>
               <ion-item color="entry-color">
-                <ion-input type="text" formControlName="fullname" placeholder="Nombre comleto"></ion-input>
+                <ion-input type="text" formControlName="fullname" placeholder="Nombre completo"></ion-input>
               </ion-item>
               
               <div *ngIf="form.controls.fullname.errors?.required">
-                <small class="color-red">* Este campo es necesario</small>
+                <small class="color-red">* Campo obligatorio</small>
               </div>
 
               <ion-item color="entry-color">
-                <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
+                <ion-input type="email" formControlName="email" placeholder="Correo electrónico"></ion-input>
               </ion-item>
               
               <div *ngIf="form.controls.email.errors?.required">
-                <small class="color-red">* Este campo es necesario</small>
+                <small class="color-red">* Campo obligatorio</small>
               </div>
 
               <div *ngIf="form.controls.email.errors?.email">
-                <small class="color-red">* Ingrese un correo valido</small>
+                <small class="color-red">* Ingrese un correo electrónico válido</small>
               </div>
 
               <ion-item color="entry-color">
-                <ion-input type="number" formControlName="phone_number" maxlength="9" placeholder="Numero de telefono"></ion-input>
+                <ion-input type="number" formControlName="phone_number" maxlength="9" placeholder="Número de teléfono"></ion-input>
               </ion-item>
               
               <div *ngIf="form.controls.phone_number.errors?.required">
-                <small class="color-red">* Este campo es necesario</small>
+                <small class="color-red">* Campo obligatorio</small>
               </div>
 
               <ion-item color="entry-color">
-                <ion-textarea row="5" type="text" formControlName="message" placeholder="Mensaje"></ion-textarea>
+                <ion-textarea row="10" type="text" formControlName="message" placeholder="Mensaje"></ion-textarea>
               </ion-item>
 
               <div *ngIf="form.controls.message.errors?.required">
-                <small class="color-red">* Este campo es necesario</small>
+                <small class="color-red">* Campo obligatorio</small>
               </div>
             </ion-list>
 

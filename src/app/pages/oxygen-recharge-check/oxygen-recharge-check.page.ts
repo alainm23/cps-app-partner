@@ -4,10 +4,12 @@ import { AlertController, ActionSheetController, NavController, MenuController, 
 
 import { DatabaseService } from '../../services/database.service';
 import { StorageService } from '../../services/storage.service';
+
+import * as moment from 'moment';
 @Component({
   selector: 'app-oxygen-recharge-check',
   templateUrl: './oxygen-recharge-check.page.html',
-  styleUrls: ['./oxygen-recharge-check.page.scss'],
+  styleUrls: ['./oxygen-recharge-check.page.scss'], 
 })
 export class OxygenRechargeCheckPage implements OnInit {
   _object: any;
@@ -20,7 +22,7 @@ export class OxygenRechargeCheckPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Tu solicitud está en procesando... espere un momento'
     });
             
     await loading.present();
@@ -28,7 +30,7 @@ export class OxygenRechargeCheckPage implements OnInit {
     this.storage.getParams_2 ().then (data => {
       const params = JSON.parse (data);
 
-      if (params.state === 'created') {
+      if (params.state === 'created' || params.state === 'approved') {
         this.database.getOxygenRechargeById (params.id).subscribe (data => {
           this._object = data;
           loading.dismiss ();
@@ -58,5 +60,20 @@ export class OxygenRechargeCheckPage implements OnInit {
     });
 
     this.navCtrl.navigateForward ('oxygen-recharge');
+  }
+
+  getRelativeDateTime (data: string) {
+    return moment(data, "").fromNow();
+  }
+   
+  getFormatDateTime (data: string) {
+    return moment(data).format("LLL");  
+  }
+
+  cancel () {
+    this.database.cancelOxygenRecharge (this._object)
+      .then (() => {
+        this.goHome ();
+      });
   }
 }

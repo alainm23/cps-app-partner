@@ -1,0 +1,261 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar> 
+</ion-header>
+
+<ion-content> 
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div *ngIf="!home_injection?.is_checked">
+          <div text-center>
+            <h3 class="title-label">Médico a domicilio</h3>
+            <br>
+            <p text-wrap>Tu pedido esta en proceso de aprobacion, Por favor espere unos minutos</p>
+          </div>
+
+          <div text-center>
+            <ion-icon class="icon-wait"ios="ios-time" md="md-time"></ion-icon>
+            <p>Gracias por su paciencia</p>
+          </div>
+
+          <ion-card>
+            <ion-list>
+              <ion-list-header>
+                <ion-label>
+                  <b>Cliente:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ auth.user?.fullname }}
+              </ion-item>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Fecha:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ getFormatDate (home_injection?.date) }}
+              </ion-item>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Hora:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ home_injection?.hour }}
+              </ion-item>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Direccion:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ home_injection?.address }}
+              </ion-item>
+
+              <div *ngIf="home_injection?.note !== ''">
+                <ion-list-header>
+                  <ion-label>
+                    <b>Descripción:</b>
+                  </ion-label>
+                </ion-list-header>
+                <ion-item>
+                  {{ home_injection?.note }}
+                </ion-item>
+              </div>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Idioma:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item *ngIf="home_injection?.lang === 'es'">
+                - Español
+              </ion-item>
+
+              <ion-item *ngIf="home_injection?.lang === 'en'">
+                - Ingles
+              </ion-item>
+            </ion-list>    
+          </ion-card>
+
+          <ion-grid padding>
+            <ion-row>
+              <ion-col size="6">
+                <ion-button class="no-border" expand="block" color="blue" (click)="edit ()">
+                  Editar pedido
+                </ion-button>
+              </ion-col>
+              <ion-col size="6">
+                <ion-button class="no-border" expand="block" color="red" (click)="cancel ()">
+                  Cancelar pedido
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+
+        <div *ngIf="home_injection?.is_checked">
+          <div text-center>
+            <h3 class="title-label">Médico a domicilio</h3>
+          </div>
+
+          <ion-card color="danger" *ngIf="home_injection?.state == 'observed' || home_injection?.state == 'canceled'">
+            <ion-card-header>
+              <b *ngIf="home_injection?.state == 'observed'">Estado: Observado</b>
+              <b *ngIf="home_injection?.state == 'canceled'">Estado: Cancelado</b>
+            </ion-card-header> 
+            <ion-card-content>
+              {{ home_injection?.last_message }}
+            </ion-card-content> 
+          </ion-card>
+
+          <ion-card color="blue" *ngIf="home_injection?.state == 'approved'">
+            <ion-card-header>
+              <b>Estado: Aprobado</b>
+            </ion-card-header> 
+            <ion-card-content>
+              {{ home_injection?.last_message }}
+            </ion-card-content>
+          </ion-card>
+          
+          <ion-card color="green" *ngIf="home_injection?.state === 'completed'">
+              <ion-card-header>
+                <b *ngIf="home_injection?.payment_type === 'online'">Pagado</b>
+                <b *ngIf="home_injection?.payment_type === 'cash'">Tipo de Pago: Contra Entrega</b>
+              </ion-card-header> 
+              <ion-card-content>
+                <p *ngIf="home_injection?.payment_type === 'online'">
+                  Por favor espere. Se le notificara cuando el pedido haya sido enviado.
+                </p>
+                <p *ngIf="home_injection?.payment_type === 'cash'">
+                  Por favor espere. Se le notificara cuando el pedido haya sido enviado.
+                  Por favor, pague al mensajero
+                </p>
+              </ion-card-content>
+          </ion-card>
+
+          <ion-card>
+            <ion-list>
+              <ion-list-header>
+                <ion-label>
+                  <b>Cliente:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ auth.user?.fullname }}
+              </ion-item>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Fecha:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ getFormatDate (home_injection?.date) }}
+              </ion-item>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Hora:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ home_injection?.hour }}
+              </ion-item>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Direccion:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item>
+                {{ home_injection?.address }}
+              </ion-item>
+
+              <div *ngIf="home_injection?.note !== ''">
+                <ion-list-header>
+                  <ion-label>
+                    <b>Descripción:</b>
+                  </ion-label>
+                </ion-list-header>
+                <ion-item>
+                  {{ home_injection?.note }}
+                </ion-item>
+              </div>
+
+              <ion-list-header>
+                <ion-label>
+                  <b>Idioma:</b>
+                </ion-label>
+              </ion-list-header>
+              <ion-item *ngIf="home_injection?.lang === 'es'">
+                - Español
+              </ion-item>
+
+              <ion-item *ngIf="home_injection?.lang === 'en'">
+                - Ingles
+              </ion-item>
+            </ion-list>    
+          </ion-card>
+
+          <div text-center *ngIf="home_injection?.state == 'observed'">
+            <ion-row>
+              <ion-col size="12" size-sm="6">
+                <ion-button class="no-border" color="blue" (click)="edit (home_injection?.id)">
+                  Correguir observaciones
+                </ion-button>
+              </ion-col>
+
+              <ion-col size="12" size-sm="6">
+                <ion-button class="no-border" ion-button color="red" (click)="cancel (home_injection?.id)">
+                  Cancel
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <div *ngIf="home_injection?.state === 'approved'">
+            <ion-card>
+              <ion-card-header>
+                <b>Costo</b>
+              </ion-card-header> 
+              <ion-card-content>
+                <p>Costo: S/.{{ getFormatPrice (home_injection?.price) }}</p>
+                <p>Delivery: S/.{{ getFormatPrice (home_injection?.delivery_price) }}</p>
+                <p>Total (inc. IGV): {{ getFormatPrice (home_injection?.price + home_injection?.delivery_price) }}</p>
+                <p margin-top>Tiempo: {{ getRelativeTime (home_injection?.delivery_time) }} min</p>
+              </ion-card-content>
+            </ion-card>
+
+            <div text-center padding>
+              <ion-button color="blue" (click)="presentActionSheet (home_injection?.price + home_injection?.delivery_price)">
+                Pagar
+              </ion-button>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

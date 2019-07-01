@@ -9,8 +9,10 @@ import { PaymentService } from '../../services/payment.service';
 import { AuthService } from '../../services/auth.service';
 import { StorageService } from '../../services/storage.service';
 import { ApiService } from '../../services/api.service';
+
+import * as moment from 'moment'; 
 @Component({
-  selector: 'app-appointment-checkout',
+  selector: 'app-appointment-checkout', 
   templateUrl: './appointment-checkout.page.html',
   styleUrls: ['./appointment-checkout.page.scss'],
 })
@@ -46,7 +48,6 @@ export class AppointmentCheckoutPage implements OnInit {
       phone_number: new FormControl (this.auth.user.country_dial_code + ' ' + this.auth.user.phone_number, Validators.required),
       nationality: new FormControl ('', Validators.required),
       email: new FormControl (this.auth.user.email, Validators.required),
-      address: new FormControl (this.auth.user.address, Validators.required),
       message: new FormControl (''),
       terms_conditions: new FormControl (false, Validators.compose([
         Validators.required,  
@@ -66,7 +67,7 @@ export class AppointmentCheckoutPage implements OnInit {
       this.final_data.hor_con = params.hor_con;
 
       const loading = await this.loadingController.create({
-        message: 'Hellooo'
+        message: 'Tu solicitud está en procesando... Espere un momento'
       });
     
       await loading.present();
@@ -78,7 +79,7 @@ export class AppointmentCheckoutPage implements OnInit {
       this.onSelectChange ('peruano');
       this.events.subscribe('get_token', async (token: string) => {
         const loading = await this.loadingController.create({
-          message: 'Hellooo'
+          message: 'Tu solicitud está en procesando... Espere un momento'
         });
         
         await loading.present();
@@ -105,7 +106,7 @@ export class AppointmentCheckoutPage implements OnInit {
               phone_number: value.phone_number,
               nationality: value.nationality,
               email: value.email,
-              address: value.address,
+              address: '',
               message: value.message,
               price: this.price,
               specialty_name: this.final_data.nombre,
@@ -143,8 +144,8 @@ export class AppointmentCheckoutPage implements OnInit {
                   loading.dismiss ();
 
                   const alert = await this.alertController.create({
-                    header: 'Error con la reserva!',
-                    message: 'La cita fue pagada, pero por algun error no se pudo almacenar en la base de datos.',
+                    header: '¡Error con la reserva!',
+                    message: 'La cita fue pagada, pero por algún error no se pudo almacenar en la base de datos.',
                     buttons: ['OK']
                   });
 
@@ -154,8 +155,8 @@ export class AppointmentCheckoutPage implements OnInit {
                 loading.dismiss ();
 
                 const alert = await this.alertController.create({
-                  header: 'Error!',
-                  message: 'Ocurrio un error en la reserva.',
+                  header: '¡Error!',
+                  message: 'Ocurrió un error en la reserva.',
                   buttons: ['OK']
                 });
 
@@ -167,8 +168,8 @@ export class AppointmentCheckoutPage implements OnInit {
           loading.dismiss ();
             
           const alert = await this.alertController.create({
-            header: 'Error!',
-            message: 'Ocurrio un error en la reserva.',
+            header: '¡Error!',
+            message: 'Ocurrió un error en la reserva.',
             buttons: ['OK']
           });
 
@@ -192,7 +193,7 @@ export class AppointmentCheckoutPage implements OnInit {
 
   async openCheckout () {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Tu solicitud está en procesando... Espere un momento'
     });
     
     await loading.present();
@@ -207,5 +208,9 @@ export class AppointmentCheckoutPage implements OnInit {
 
   goHome () {
     this.navCtrl.navigateRoot ('home');
+  }
+
+  getFormatDate (fecha: string, hor_con: string) {
+    return moment(fecha + ' ' + hor_con).format('LLLL');
   }
 }

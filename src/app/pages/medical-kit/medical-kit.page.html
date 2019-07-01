@@ -22,19 +22,13 @@
 <ion-content padding>
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
-          <img src="http://lorempixel.com/128/128/sports">  
+          <img class="logo-size" [src]="auth.user.logotipo">  
         </div>
       </ion-col>
       
-      <ion-col size="2" class="ion-align-self-center">
-        <div text-center>
-          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
-        </div>
-      </ion-col>
-
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
           <h2 *ngIf="is_edit === true" text-wrap class="title-color">
             Editar botiquín
@@ -50,29 +44,35 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-card>
-          <ion-row>
-            <ion-col>
-              <ion-item lines="none" size="6" [color]="color_01" (click)="change_value (1)">
-                <p class="text-center">Botiquin nuevo o adicional</p>
-              </ion-item>
-            </ion-col>
+        <form [formGroup]="form">
+        <ion-radio-group formControlName="type">
+          <ion-list-header>
+            <ion-label>Seleccione una opción:</ion-label>
+          </ion-list-header>
 
-            <ion-col>
-              <ion-item lines="none" size="6" [color]="color_02" (click)="change_value (2)">
-                <p class="text-center">Brigadas de emergencia</p>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-card>
+          <ion-item>
+            <ion-label>Botiquín nuevo</ion-label>
+            <ion-radio slot="start" value="new" checked></ion-radio>
+          </ion-item>
 
+          <ion-item>
+            <ion-label>Botiquín adicional</ion-label>
+            <ion-radio slot="start" value="add"></ion-radio>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Recarga de botiquín</ion-label>
+            <ion-radio slot="start" value="charge"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+        </form>
         <ion-grid>
           <ion-row>
             <ion-col size="8" offset="2">
-              <ion-button [disabled]="item_01 === false && item_02 === false" *ngIf="is_edit === true" expand="block" color="blue" (click)="submit ()">
+              <ion-button *ngIf="is_edit === true" expand="block" color="blue" [disabled]="!form.valid" (click)="submit ()">
                 Actualizar
               </ion-button>
-              <ion-button [disabled]="item_01 === false && item_02 === false" *ngIf="is_edit === false" expand="block" color="blue" (click)="submit ()">
+              <ion-button *ngIf="is_edit === false" expand="block" color="blue" [disabled]="!form.valid" (click)="submit ()">
                 Pedir
               </ion-button>  
             </ion-col>

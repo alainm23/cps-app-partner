@@ -19,7 +19,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <div text-center>
     <h2 text-wrap class="title-color">Hola Alain Y. Meza Huaman</h2>
     <h4 title-color>Partner: PuntoPro</h4>
@@ -27,51 +27,47 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goOxygenRecharge ()">
-          <img class="logo-css" src="assets/icono.svg">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goOxygenRecharge ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/recarga_ox.svg">
           <h5 text-wrap>Recarga de oxigeno</h5>
-          <ion-badge *ngIf="oxygen_recharge?.state === 'created'" color="danger">Solicitado</ion-badge>
         </ion-card>
       </ion-col>
 
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="GoAdsMaterial ()">
-          <img class="logo-css" src="assets/icono.svg">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="GoAdsMaterial ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/material_pub.svg">
           <h5 text-wrap>Material publicitario</h5>
-          <ion-badge *ngIf="ads_materia?.state === 'created'" color="danger">Solicitado</ion-badge>
         </ion-card>
       </ion-col>
 
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goTrainings ()">
-          <img class="logo-css" src="assets/icono.svg">
-          <h5 text-wrap>Capacitaciones</h5>
-          <ion-badge *ngIf="trainings?.state === 'created'" color="danger">Solicitado</ion-badge>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goVisits ()">
-          <img class="logo-css" src="assets/icono.svg">
-          <h5 text-wrap>Visita de representacion comercial</h5>
-          <ion-badge *ngIf="visits?.state === 'created'" color="danger">Solicitado</ion-badge>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goMedicalKit ()">
-          <img class="logo-css" src="assets/icono.svg">
-          <h5 text-wrap>Botiquines</h5>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goMedicalKit ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/botiquin.svg">
+          <h5 text-wrap>Botiquín</h5>
           <ion-badge *ngIf="medical_kit?.state === 'created'" color="danger">Solicitado</ion-badge>
+          <ion-badge *ngIf="medical_kit?.state === 'approved'" color="blue">Aprobado</ion-badge>
         </ion-card>
       </ion-col>
 
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goOccupationalEexam ()">
-          <img class="logo-css" src="assets/icono.svg">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goTrainings ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/capacitacion.svg">
+          <h5 text-wrap>Capacitaciones</h5>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goVisits ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/visita_rep.svg">
+          <h5 text-wrap>Visita de representante comercial</h5>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goOccupationalEexam ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/ex_ocup.svg">
           <h5 text-wrap>Examenes ocupacionales</h5>
-          <ion-badge *ngIf="occupational_exam?.state === 'created'" color="danger">Solicitado</ion-badge>
         </ion-card>
       </ion-col>
     </ion-row>

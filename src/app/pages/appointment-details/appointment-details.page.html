@@ -4,11 +4,13 @@
       <ion-back-button color="blue"></ion-back-button>
     </ion-buttons>
 
+
     <ion-buttons slot="start">
       <ion-button (click)="goHome ()">
         <img class="logo" src="assets/logo.png">
       </ion-button>
     </ion-buttons>
+
 
     <ion-buttons slot="end">
       <ion-button>
@@ -19,12 +21,13 @@
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content padding>
   <ion-grid>
     <ion-row>
       <ion-col>
         <div text-center>
-          <h2 class="title-label">Appointment Detail</h2>
+          <h2 class="title-label">Detalle de cita</h2>
           <p text-wrap>
             Hemos realizado la reserva de tu cita médica en la especialidad de ({{ appointment?.specialty_name }})
           </p>
@@ -33,66 +36,79 @@
         <ion-list>
           <ion-item-divider>
             <ion-label>
-              <b>Fecha / Hora de cita</b>
+              <b>Fecha - Hora de cita:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
             {{ appointment?.date }} - {{ appointment?.hour }}
           </ion-item>
 
+
           <ion-item-divider>
             <ion-label>
-              <b>Paciente</b>
+              <b>Paciente:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
             {{ appointment?.cliente_nombre }}
           </ion-item>
 
+
           <ion-item-divider>
             <ion-label>
-              <b>Telefono</b>
+              <b>Teléfono:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
             {{ appointment?.phone_number }}
           </ion-item>
 
+
           <ion-item-divider>
             <ion-label>
-              <b>Email</b>
+              <b>Correo electrónico:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
             {{ appointment?.email }}
           </ion-item>
 
+
           <ion-item-divider>
             <ion-label>
-              <b>Nacionalidad</b>
+              <b>Nacionalidad:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
             {{ appointment?.nationality }}
           </ion-item>
 
-          <ion-item-divider>
-            <ion-label>
-              <b>Notas</b>
-            </ion-label>
-          </ion-item-divider>
-          <ion-item>
-            {{ appointment?.message }}
-          </ion-item>
+          <div *ngIf="appointment?.message !== ''">
+            <ion-item-divider>
+              <ion-label>
+                <b>Notas:</b>
+              </ion-label>
+            </ion-item-divider>
+            <ion-item>
+              {{ appointment?.message }}
+            </ion-item>
+          </div>
         </ion-list>
       
         <div text-center>
           <h6 text-wrap>
-            Su cita esta confirmada, por favor visitenos 20 minutos antes de la fecha y hora indicada
+            Su cita está confirmada, por favor presentarse 20 minutos antes de la hora indicada.
           </h6>
           <h6 text-wrap>
-            Se le a enviado un correo electronico a <b>{{ appointment?.email }}</b> con los detalles de la reserva.
+            Se ah enviado un correo electrónico a <b>{{ appointment?.email }}</b> con los detalles de su cita.
           </h6>
+        </div>
+
+
+        <div>
+          <ion-button color="blue" (click)="goHome ()">
+            Ir a la pagina de inicio
+          </ion-button>
         </div>
       </ion-col>
     </ion-row>

@@ -4,6 +4,8 @@ import { AlertController, ActionSheetController, NavController, MenuController, 
 
 import { DatabaseService } from '../../services/database.service';
 import { StorageService } from '../../services/storage.service';
+
+import * as moment from 'moment';
 @Component({
   selector: 'app-trainings-check',
   templateUrl: './trainings-check.page.html',
@@ -20,7 +22,7 @@ export class TrainingsCheckPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Tu solicitud está en procesando... espere un momento'
     });
             
     await loading.present();
@@ -28,7 +30,7 @@ export class TrainingsCheckPage implements OnInit {
     this.storage.getParams_2 ().then (data => {
       const params = JSON.parse (data);
 
-      if (params.state === 'created') {
+      if (params.state === 'created' || params.state === 'approved') {
         this.database.getTrainingsById (params.id).subscribe (data => {
           this._object = data;
           loading.dismiss ();
@@ -58,5 +60,20 @@ export class TrainingsCheckPage implements OnInit {
     });
 
     this.navCtrl.navigateForward ('trainings');
+  }
+
+  getRelativeDateTime (data: string) {
+    return moment(data, "").fromNow();
+  }
+   
+  getFormatDateTime (data: string) {
+    return moment(data).format("lll");
+  }
+
+  cancel () {
+    this.database.cancelTrainings (this._object)
+      .then (() => {
+        this.goHome ();
+      });
   }
 }

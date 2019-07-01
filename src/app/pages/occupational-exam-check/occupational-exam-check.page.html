@@ -30,43 +30,25 @@
         <ion-list>
           <ion-item-divider>
             <ion-label>
-              <b>Fecha</b>
+              <b>Fecha y hora de solicitud:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
-            {{ _object?.created_date }}
+            {{ getFormatDateTime (_object?.created_date) }}
           </ion-item>
 
           <ion-item-divider>
             <ion-label>
-              <b>Cliente</b>
+              <b>Cliente:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
             {{ _object?.user_fullname }}
           </ion-item>
-
+          
           <ion-item-divider>
             <ion-label>
-              <b>Fecha requerida</b>
-            </ion-label> 
-          </ion-item-divider>
-          <ion-item>
-            {{ _object?.date }}
-          </ion-item>
-
-          <ion-item-divider>
-            <ion-label>
-              <b>Hora</b>
-            </ion-label> 
-          </ion-item-divider>
-          <ion-item>
-           {{ _object?.hour }}
-          </ion-item>
-
-          <ion-item-divider>
-            <ion-label>
-              <b>Telefono de contacto</b>
+              <b>Teléfono de contacto:</b>
             </ion-label> 
           </ion-item-divider>
           <ion-item>
@@ -75,7 +57,7 @@
 
           <ion-item-divider>
             <ion-label>
-              <b>Cantidad</b>
+              <b>Cantidad de evaluados:</b>
             </ion-label> 
           </ion-item-divider>
           <ion-item>
@@ -84,8 +66,12 @@
         </ion-list>
 
         <div text-center>
-          <ion-button (click)="edit ()" color="blue">
+          <ion-button (click)="edit ()" color="blue" expand="block">
             Editar
+          </ion-button>
+
+          <ion-button (click)="cancel ()" color="danger" expand="block">
+            Cancelar
           </ion-button>
         </div>
       </ion-col>

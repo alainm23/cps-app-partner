@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ActionSheetController, NavController, MenuController, LoadingController, ToastController } from '@ionic/angular';
 
 import { DatabaseService } from '../../services/database.service';
-import { StorageService } from '../../services/storage.service';
+import { StorageService } from '../../services/storage.service'; 
+
+import * as moment from 'moment';
 @Component({
   selector: 'app-ads-material-check',
   templateUrl: './ads-material-check.page.html',
@@ -20,7 +22,7 @@ export class AdsMaterialCheckPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Tu solicitud está en procesando... espere un momento'
     });
             
     await loading.present();
@@ -28,7 +30,9 @@ export class AdsMaterialCheckPage implements OnInit {
     this.storage.getParams_2 ().then (data => {
       const params = JSON.parse (data);
 
-      if (params.state === 'created') {
+      console.log (params);
+      
+      if (params.state === 'created' || params.state === 'approved') {
         this.database.getADSMaterialById (params.id).subscribe (data => {
           this._object = data;
           loading.dismiss ();
@@ -58,5 +62,20 @@ export class AdsMaterialCheckPage implements OnInit {
     });
 
     this.navCtrl.navigateForward ('ads-material');
+  }
+
+  getRelativeDateTime (data: string) {
+    return moment(data, "").fromNow();
+  }
+   
+  getFormatDateTime (data: string) {
+    return moment(data).format("LLL"); 
+  }
+
+  cancel () {
+    this.database.cancelADSMaterial (this._object)
+      .then (() => {
+        this.goHome ();
+      });
   }
 }

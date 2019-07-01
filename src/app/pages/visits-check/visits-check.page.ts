@@ -5,6 +5,7 @@ import { AlertController, ActionSheetController, NavController, MenuController, 
 import { DatabaseService } from '../../services/database.service';
 import { StorageService } from '../../services/storage.service';
 
+import * as moment from 'moment';
 @Component({
   selector: 'app-visits-check',
   templateUrl: './visits-check.page.html',
@@ -21,7 +22,7 @@ export class VisitsCheckPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Tu solicitud está en procesando... espere un momento'
     });
             
     await loading.present();
@@ -29,7 +30,7 @@ export class VisitsCheckPage implements OnInit {
     this.storage.getParams_2 ().then (data => {
       const params = JSON.parse (data);
 
-      if (params.state === 'created') {
+      if (params.state === 'created' || params.state === 'approved') {
         this.database.getVisitsById (params.id).subscribe (data => {
           this._object = data;
           loading.dismiss ();
@@ -59,5 +60,20 @@ export class VisitsCheckPage implements OnInit {
     });
 
     this.navCtrl.navigateForward ('visits');
+  }
+
+  getRelativeDateTime (data: string) {
+    return moment(data, "").fromNow();
+  }
+   
+  getFormatDateTime (data: string) {
+    return moment(data).format("lll");  
+  }
+
+  cancel () {
+    this.database.cancelVisits (this._object)
+      .then (() => {
+        this.goHome ();
+      });
   }
 }

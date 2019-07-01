@@ -16,6 +16,50 @@ export class ApiService {
     return this.http.get (url);
   }
   
+  getServices (lang: string) {
+    let url = this.API + '/getservicios/' + lang;
+    
+    return this.http.get (url).map ((data: any) => {
+        return data.especialidades;      
+    }, (error: HttpErrorResponse) => {
+      if (error.error instanceof Error) {
+        console.log("Client-side error occured.");
+      } else {
+        console.log("Server-side error occured.");
+      }
+    });
+  }
+
+  getsintomas (lang: string) {
+    let url = this.API + '/getsintomas/' + lang;
+    
+    return this.http.get (url).map ((data: any) => {
+        return data.sintomas;      
+    }, (error: HttpErrorResponse) => {
+      if (error.error instanceof Error) {
+        console.log("Client-side error occured.");
+      } else {
+        console.log("Server-side error occured.");
+      }
+    });
+  }
+  
+  getvariaciones (id: string, lang: string) {
+    let url = this.API + '/getvariaciones/' + id + '/' + lang;
+
+    console.log (url);
+
+    return this.http.get (url).map ((data: any) => {
+        return data.variaciones;      
+    }, (error: HttpErrorResponse) => {
+      if (error.error instanceof Error) {
+        console.log("Client-side error occured.");
+      } else {
+        console.log("Server-side error occured.");
+      }
+    });
+  }
+  
   getCitasEspecialidad (name: string) {
     let url = this.API + "/getcitasespecialidad/" + name;
 
@@ -65,6 +109,11 @@ export class ApiService {
 
   checkoutapp (data: any) {
     let url = "https://api.cps.com.pe/api/checkoutapp";
+    return this.http.post (url, data);
+  }
+
+  pushNotification (data: any) {
+    let url = "https://api.cps.com.pe/api/send-notification";
     return this.http.post (url, data);
   }
 }

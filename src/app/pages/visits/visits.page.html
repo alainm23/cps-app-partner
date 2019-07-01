@@ -22,25 +22,19 @@
 <ion-content padding>
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
-          <img src="http://lorempixel.com/128/128/sports">  
+          <img class="logo-size" [src]="auth.user.logotipo">  
         </div>
       </ion-col>
       
-      <ion-col size="2" class="ion-align-self-center">
-        <div text-center>
-          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
-        </div>
-      </ion-col>
-
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
           <h2 text-wrap class="title-color"></h2>
           <h2 *ngIf="is_edit === true" text-wrap class="title-color">
-            Editar Visita de representante comercial
+            Editar visita de representante comercial
           </h2>
-          <h2 *ngIf="is_edit !== false" text-wrap class="title-color">
+          <h2 *ngIf="is_edit === false" text-wrap class="title-color">
             Visita de representante comercial
           </h2>
         </div>
@@ -63,16 +57,24 @@
 
             <ion-item color="entry-color">
               <ion-label>Fecha</ion-label>
-              <ion-datetime formControlName="date" display-format="MMM DD, YYYY"></ion-datetime>
+              <ion-datetime formControlName="date" display-format="MMMM DD, YYYY"
+                cancelText="Cancelar" doneText="Seleccionar"
+                monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"></ion-datetime>
             </ion-item>
 
             <div *ngIf="form.controls.date.errors?.required">
               <small class="color-red">* Este campo es necesario</small>
             </div>
 
-            <ion-item color="entry-color"> 
-              <ion-label>Hora</ion-label>
-              <ion-datetime formControlName="hour" display-format="h:mm"></ion-datetime>
+            <ion-item color="entry-color">
+              <ion-label>Horario</ion-label>
+              <ion-select placeholder="Elija una hora" formControlName="hour">
+                <div *ngFor="let item of get_hours ()">
+                  <ion-select-option *ngIf="check_hour (item)" [value]="item">
+                    {{ item }}
+                  </ion-select-option>
+                </div>
+              </ion-select>
             </ion-item>
 
             <div *ngIf="form.controls.hour.errors?.required">
@@ -80,7 +82,7 @@
             </div>
 
             <ion-item color="entry-color">
-              <ion-input formControlName="contact_phone_number" type="text" placeholder="Telefono de contacto"></ion-input>
+              <ion-input formControlName="contact_phone_number" type="text" placeholder="Teléfono de contacto"></ion-input>
             </ion-item>
 
             <div *ngIf="form.controls.contact_phone_number.errors?.required">

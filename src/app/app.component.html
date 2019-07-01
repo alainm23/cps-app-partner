@@ -8,7 +8,7 @@
     <ion-content>
       <ion-list>
         <ion-menu-toggle auto-hide="false">
-          <ion-item>Inicio</ion-item>
+          <ion-item (click)="goHome ()">Inicio</ion-item>
         </ion-menu-toggle>
 
         <ion-menu-toggle auto-hide="false">
@@ -20,19 +20,15 @@
         </ion-menu-toggle>
 
         <ion-menu-toggle auto-hide="false">
-          <ion-item>Administrar personal</ion-item>
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="false">
-          <ion-item>Enviar consultas</ion-item>
-        </ion-menu-toggle>
-
-        <ion-menu-toggle auto-hide="false">
           <ion-item>Ver coberturas plan VIP</ion-item>
         </ion-menu-toggle>
 
         <ion-menu-toggle auto-hide="false">
-          <ion-item>Salir</ion-item>
+          <ion-item (click)="reportIssue ()">Reportar un problema</ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle auto-hide="false">
+          <ion-item (click)="salir ()">Salir</ion-item>
         </ion-menu-toggle>
       </ion-list>
     </ion-content>

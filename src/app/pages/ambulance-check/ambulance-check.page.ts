@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators} from "@angular/forms";
-
+  
 import { Events } from '@ionic/angular';
 import { NavController, MenuController, LoadingController, ToastController, AlertController } from '@ionic/angular';
 
@@ -47,7 +47,7 @@ export class AmbulanceCheckPage implements OnInit {
       const params = JSON.parse (data);
       
       this.loading = await this.loadingController.create({
-        message: 'Hellooo'
+        message: 'Tu solicitud está en procesando... Espere un momento'
       });
     
       await this.loading.present();
@@ -160,23 +160,22 @@ export class AmbulanceCheckPage implements OnInit {
 
   async cancel () {
     const alert = await this.alertController.create({
-      header: '¿Cancelar pedido?',
-      message: 'Estas seguro que deseas cancelar este pedido',
+      header: 'Seguro que desea cancelar su pedido',
       inputs: [
         {
           name: 'message',
-          placeholder: 'Motivo de cancelacion'
+          placeholder: 'motivo de cancelacion'
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No cancelar',
           handler: () => {
             
           }
         },
         {
-          text: 'Ok',
+          text: 'Confirmar',
           handler: async (data) => {
             const loading = await this.loadingController.create({
               message: 'Procesando ...'

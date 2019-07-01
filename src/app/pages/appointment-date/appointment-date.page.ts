@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+ 
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { DatabaseService } from '../../services/database.service';
@@ -36,9 +36,10 @@ export class AppointmentDatePage implements OnInit {
     precio_extranjero: 0,
     precio_nacional: 0,
     nombre: '',
+    nombre_referencia: '',
     fecha: '',
     medico_id: '',
-    id_con: '',
+    id_con: '', 
     hor_con: ''
   };
 
@@ -56,19 +57,20 @@ export class AppointmentDatePage implements OnInit {
       this.final_data.precio_extranjero = params.precio_extranjero;
       this.final_data.precio_nacional = params.precio_nacional;
       this.final_data.nombre = params.nombre;
+      this.final_data.nombre_referencia = params.nombre_referencia;
       this.final_data.descripcion = params.descripcion;
 
       this.date = new Date();
-      this.monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      this.monthNames = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiember","Octubre","Novimbre","Diciembre"];
       this.getDaysOfMonth();
 
       const loading = await this.loadingController.create({
-        message: 'Hellooo'
+        message: 'Tu solicitud está en procesando... Espere un momento'
       });
     
       await loading.present();
 
-      this.api.getCitasEspecialidad (this.final_data.nombre.toLowerCase ()).subscribe ((data: any) => {
+      this.api.getCitasEspecialidad (this.final_data.nombre_referencia.toLowerCase ()).subscribe ((data: any) => {
         console.log (data.citas);
 
         this.citas = data.citas;
@@ -165,7 +167,7 @@ export class AppointmentDatePage implements OnInit {
       if (date.getDate () === dinamic_date.getDate ()) {
         if (date.getMonth () === dinamic_date.getMonth ()) {
           const loading = await this.loadingController.create({
-            message: 'Hellooo'
+            message: 'Tu solicitud está en procesando... Espere un momento'
           });
         
           await loading.present();
@@ -173,7 +175,7 @@ export class AppointmentDatePage implements OnInit {
           this.clear_all_days ();
             
           let elem = document.getElementById ('calendar-' + day.toString ());
-          elem.setAttribute("style", "background-color: #230084; border-radius: 6px; color: #fff !important;");
+          elem.setAttribute("style", "border: 3px solid #230084; border-radius: 12px; color: #fff !important;");
 
           let _month = month.toString();
           let _day = day.toString();
@@ -193,13 +195,16 @@ export class AppointmentDatePage implements OnInit {
               this.final_data.medico_id = cita.med_esp;
             }
           } 
-            
+          
           this.api.getHorariosFecha (this.final_data.medico_id, this.final_data.fecha).subscribe ((data: any) => {
             loading.dismiss ();              
             this.check_1 = true;
             this.horas = data.horas;
 
             console.log (data.horas);
+          }, error => {
+            loading.dismiss ();  
+            console.log ('Error getHorariosFecha', error);
           });
         }
       }
@@ -221,7 +226,7 @@ export class AppointmentDatePage implements OnInit {
     var hour = time.substring (0, 2);
     var _hour = parseInt (hour);
 
-    if (_hour > 0 && _hour < 13) {
+    if (_hour >= 0 && _hour < 13) {
       return true;
     }
     
@@ -232,7 +237,7 @@ export class AppointmentDatePage implements OnInit {
     var hour = time.substring (0, 2);
     var _hour = parseInt (hour);
 
-    if (_hour > 12 && _hour < 18) {
+    if (_hour >= 12 && _hour < 18) {
       return true;
     }
 
@@ -243,7 +248,7 @@ export class AppointmentDatePage implements OnInit {
     var hour = time.substring (0, 2);
     var _hour = parseInt (hour);
 
-    if (_hour > 18 && _hour < 23) {
+    if (_hour >= 18 && _hour < 23) {
       return true;
     }
     
@@ -256,8 +261,10 @@ export class AppointmentDatePage implements OnInit {
     this.final_data.id_con = hour.id_con;
     this.final_data.hor_con = hour.hor_con;
     this.final_date_format = moment(this.final_data.fecha + ' ' + hour.hor_con).format('LL');
-  
-    this.clearHour (hour.id_con);
+    
+    this.storage.setParams ('params', this.final_data);
+    this.navCtrl.navigateForward ('appointment-checkout');
+    //this.clearHour (hour.id_con);
   }
 
   clearHour (id) {
@@ -288,6 +295,6 @@ export class AppointmentDatePage implements OnInit {
   }
 
   goEmergency () {
-    //this.navCtrl.push ("EmergencyPage");
+    this.navCtrl.navigateForward ("ambulance");
   }
 }

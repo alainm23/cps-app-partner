@@ -19,25 +19,19 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding> 
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
-          <img src="http://lorempixel.com/128/128/sports">  
+          <img class="logo-size" [src]="auth.user.logotipo">  
         </div>
       </ion-col>
       
-      <ion-col size="2" class="ion-align-self-center">
-        <div text-center>
-          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
-        </div>
-      </ion-col>
-
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
           <h2 *ngIf="is_edit === true" text-wrap class="title-color">
-            Editar Pedido de material publicitario
+            Editar pedido de material publicitario
           </h2>
           <h2 *ngIf="is_edit === false" text-wrap class="title-color">
             Pedido de material publicitario
@@ -53,7 +47,7 @@
         <ion-grid>
           <ion-row>
             <ion-col size="6">
-              <ion-card>
+              <ion-card no-padding no-margin>
                 <ion-item lines="none" [color]="color_01" (click)="change_value (1)">
                   <span class="text-center">Mapas</span>
                 </ion-item>
@@ -61,15 +55,15 @@
             </ion-col>
 
             <ion-col size="6">
-              <ion-card>
+              <ion-card no-padding no-margin>
                 <ion-item lines="none" [color]="color_02" (click)="change_value (2)">
-                  <span class="text-center">Portafiles</span>
+                  <span class="text-center">Portaflys</span>
                 </ion-item>
               </ion-card>
             </ion-col>
 
             <ion-col size="6">
-              <ion-card>
+              <ion-card no-padding no-margin>
                 <ion-item lines="none" [color]="color_03" (click)="change_value (3)">
                   <span class="text-center">Lapiceros</span>
                 </ion-item>
@@ -77,17 +71,41 @@
             </ion-col>
 
             <ion-col size="6">
-              <ion-card>
+              <ion-card no-padding no-margin>
                 <ion-item lines="none" [color]="color_04" (click)="change_value (4)">
-                  <span class="text-center">Blocks</span>
+                  <span class="text-center">Block's</span>
                 </ion-item>
               </ion-card>
             </ion-col>
 
             <ion-col size="6">
-              <ion-card>
+              <ion-card no-padding no-margin>
                 <ion-item lines="none" [color]="color_05" (click)="change_value (5)">
                   <span class="text-center">Ambientador</span>
+                </ion-item> 
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-card no-padding no-margin>
+                <ion-item lines="none" [color]="color_06" (click)="change_value (6)">
+                  <span class="text-center">Agenda</span>
+                </ion-item> 
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-card no-padding no-margin>
+                <ion-item lines="none" [color]="color_07" (click)="change_value (7)">
+                  <span class="text-center">Calendario</span>
+                </ion-item> 
+              </ion-card>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-card no-padding no-margin>
+                <ion-item lines="none" [color]="color_08" (click)="change_value (8)">
+                  <span class="text-center">Tablero</span>
                 </ion-item> 
               </ion-card>
             </ion-col>

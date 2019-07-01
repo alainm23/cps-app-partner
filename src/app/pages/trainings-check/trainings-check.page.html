@@ -24,23 +24,32 @@
     <ion-row>
       <ion-col>
         <div text-center>
-          <h2 text-wrap class="title-color">Material publicitario</h2>
+          <h2 text-wrap class="title-color">Capacitaciones</h2>
           <h4 title-color>{{ _object?.user_company_name }}</h4>
         </div>
 
         <ion-list>
           <ion-item-divider>
             <ion-label>
-              <b>Fecha</b>
+              <b>Fecha y hora de solicitud:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
-            {{ _object?.created_date }}
+            {{ getFormatDateTime (_object?.created_date) }}
           </ion-item>
 
           <ion-item-divider>
             <ion-label>
-              <b>Cliente</b>
+              <b>Fecha de capacitación:</b>
+            </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            {{ getFormatDateTime (_object?.date) }}
+          </ion-item>
+
+          <ion-item-divider>
+            <ion-label>
+              <b>Cliente:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
@@ -49,7 +58,7 @@
 
           <ion-item-divider>
             <ion-label>
-              <b>Requerido</b>
+              <b>Capacitación requerida:</b>
             </ion-label> 
           </ion-item-divider>
           <ion-item *ngIf="_object?.first_id === true">
@@ -61,17 +70,30 @@
           </ion-item>
 
           <ion-item *ngIf="_object?.fire_extinguishers === true">
-            - Manejo de exintores
+            - Manejo de extintores
           </ion-item>
 
           <ion-item *ngIf="_object?.nutrition === true">
-            - Nutricion  
+            - Manipulación de alimentos
+          </ion-item>
+
+          <ion-item-divider>
+            <ion-label>
+              <b>Cantidad de participantes:</b>
+            </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            {{ _object?.numero_personas }}
           </ion-item>
         </ion-list>
 
         <div text-center>
-          <ion-button (click)="edit ()" color="blue">
+          <ion-button (click)="edit ()" color="blue" expand="block">
             Editar
+          </ion-button>
+
+          <ion-button (click)="cancel ()" color="danger" expand="block">
+            Cancelar
           </ion-button>
         </div>
       </ion-col>

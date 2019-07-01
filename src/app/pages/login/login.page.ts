@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
 
   async onSubmit () {
     const loading = await this.loadingController.create({
-      message: 'Procesando Informacion ...'
+      message: 'Tu solicitud está en procesando... Espere un momento'
     });
 
     await loading.present ();

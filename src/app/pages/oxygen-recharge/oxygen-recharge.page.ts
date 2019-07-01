@@ -22,7 +22,8 @@ export class OxygenRechargePage implements OnInit {
               public alertController: AlertController,
               private events: Events,
               private database: DatabaseService,
-              private auth: AuthService,
+              public auth: AuthService,
+              private api: ApiService,
               private storage: StorageService,
               public loadingController: LoadingController) { }
 
@@ -60,7 +61,7 @@ export class OxygenRechargePage implements OnInit {
       message = "Esta seguro que quiere editar este pedido";
     } else {
       header = "Solicitar";
-      message = "Esta seguro que quiere solicitar este pedido";
+      message = "¿Está seguro que quiere confirmar este pedido?";
     }
 
     const alert = await this.alertController.create({
@@ -68,78 +69,113 @@ export class OxygenRechargePage implements OnInit {
       message: message,
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
           handler: (blah) => {
             console.log('Confirm Cancel: blah');
           }
         }, {
-          text: 'Okay',
+          text: 'Si',
           handler: async () => {
             const value = this.form.value;
             
             const loading = await this.loadingController.create({
-              message: 'Hellooo'
+              message: 'Tu solicitud está en procesando... espere un momento'
             });
             
             await loading.present();
 
             this.storage.getValue ('uid').then (async (uid) => {
-              const data: any = {
-                id: uid,
-                oxygen_size: value.oxygen_size,
-                time: value.time,
-                created_date: new Date ().toISOString (),
-                ruc: this.auth.user.ruc,
-                user_phone_number: this.auth.user.phone_number,
-                user_fullname: this.auth.user.fullname,
-                user_email: this.auth.user.email,
-                user_country_name: this.auth.user.country_name,
-                user_country_dial_code: this.auth.user.country_dial_code,
-                user_country_code: this.auth.user.country_code,
-                user_logotipo: this.auth.user.logotipo,
-                user_company_name: this.auth.user.company_name,
-                user_address: this.auth.user.address,
-                state: 'created',
-                why_canceled: '',
-                who_canceled: '',
-                admi_id: '',
-                admi_name: '',
-                canceled_date: '',
-                approved_date: '',
-                finalized_date: ''
-                /*
-                price: 0,
-                delivery_price: 0,
-                delivery_time: 0,
-                is_checked: false,  
-                is_paid: false,
-                is_sent: false,
+              this.storage.getValue ('token_id').then (async (token_id) => {
+                const data: any = {
+                  id: uid,
+                  token_id: token_id,
+                  oxygen_size: value.oxygen_size,
+                  time: value.time,
+                  created_date: new Date ().toISOString (),
+                  ruc: this.auth.user.ruc,
+                  user_phone_number: this.auth.user.phone_number,
+                  user_fullname: this.auth.user.fullname,
+                  user_email: this.auth.user.email,
+                  user_country_name: this.auth.user.country_name,
+                  user_country_dial_code: this.auth.user.country_dial_code,
+                  user_country_code: this.auth.user.country_code,
+                  user_logotipo: this.auth.user.logotipo,
+                  user_company_name: this.auth.user.company_name,
+                  user_address: this.auth.user.address,
+                  state: 'created',
+                  why_canceled: '',
+                  who_canceled: '',
+                  admi_id: '',
+                  admi_name: '',
+                  canceled_date: '',
+                  approved_date: '',
+                  finalized_date: ''
+                  /*
+                  price: 0,
+                  delivery_price: 0,
+                  delivery_time: 0,
+                  is_checked: false,  
+                  is_paid: false,
+                  is_sent: false,
+                  
+                  message: '',
+                  payment_type: '', //online, cash,
+                  
+                  who_canceled: '',
+                  who_canceled_name: '',
+                  canceled_date: '',
+                  arrived_date: '',
+                  approved_date: '',
+                  completed_date: '',
+                  
+                  tipo_comprobante: value.tipo_comprobante,
+                  */
+                };
                 
-                message: '',
-                payment_type: '', //online, cash,
-                
-                who_canceled: '',
-                who_canceled_name: '',
-                canceled_date: '',
-                arrived_date: '',
-                approved_date: '',
-                completed_date: '',
-                
-                tipo_comprobante: value.tipo_comprobante,
-                */
-              };
-              
-              if (this.is_edit) {
-                await this.database.updateOxygenRecharge (uid, data);
-                loading.dismiss ();
-                this.goHome ();
-              } else {
-                await this.database.addOxygenRecharge (uid, data);
-                loading.dismiss ();
-                this.goHome ();
-              }  
+                if (this.is_edit) {
+                  await this.database.updateOxygenRecharge (uid, data);
+                  let push_data = {
+                    titulo: 'Partner - Pedido de oxigeno',
+                    detalle: 'Un pedido de oxigeno fue solicitado',
+                    destino: 'oxigeno',
+                    mode: 'tags',
+                    clave: uid,
+                    tokens: 'Administrador'
+                  };
+
+                  this.api.pushNotification (push_data).subscribe (response => {
+                    console.log ("Notificacion Enviada...", response);
+                    loading.dismiss ();
+                    this.goHome ();
+                  }, error => {
+                    console.log ("Notificacion Error...", error);
+                    loading.dismiss ();
+                    this.goHome ();
+                  });
+                } else {
+                  await this.database.addOxygenRecharge (uid, data);
+                  let push_data = {
+                    titulo: 'Partner - Pedido de oxigeno',
+                    detalle: 'Un pedido de oxigeno fue solicitado',
+                    destino: 'oxigeno',
+                    mode: 'tags',
+                    clave: uid,
+                    tokens: 'Administrador'
+                  };
+
+                  this.api.pushNotification (push_data).subscribe (response => {
+                    console.log ("Notificacion Enviada...", response);
+                    loading.dismiss ();
+                    this.goHome ();
+                  }, error => {
+                    console.log ("Notificacion Error...", error);
+                    loading.dismiss ();
+                    this.goHome ();
+                  });
+                } 
+              }); 
             });
           }
         }

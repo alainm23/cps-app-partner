@@ -26,17 +26,27 @@
       <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
         <div text-center>
           <h2 class="title-label">Enviar una ambulancia</h2>
+          <p>Con medico</p>
         </div>
         
         <ion-list>
           <ion-item>
-            <ion-label position="stacked">Dirección</ion-label>
-            <ion-input formControlName="address" placeholder="Direccion"></ion-input>
+            <ion-label position="stacked">Dirección de envío</ion-label>
+            <ion-input formControlName="address" placeholder="Dirección de envío"></ion-input>
           </ion-item>
 
+          <div class="margin-left-xd">
+            <ion-label position="stacked">Número de teléfono</ion-label>
+          </div>
+
           <ion-item>
-            <ion-label position="stacked">Telefono celular</ion-label>
-            <ion-input formControlName="phone_number" placeholder="Numero de celular"></ion-input>
+            <ion-button slot="start" size="small" color="blue" (click)="select_code ()">
+              <img async [src]="getFlat ()">&nbsp;
+              {{ pais_selected.dial_code }}
+            </ion-button>
+
+            <ion-input type="tel" formControlName="phone_number" placeholder="Número de teléfono">
+            </ion-input>
           </ion-item>
 
           <ion-card margin class="map-class">
@@ -44,7 +54,7 @@
           </ion-card>
           
           <div text-right class="margin-right">
-            <p (click)="getCurrentLocation ()">Posicion actual</p>
+            <p (click)="getCurrentLocation ()">Ubicación actual</p>
           </div>
         </ion-list>
         

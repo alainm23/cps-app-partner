@@ -28,7 +28,7 @@ export class AppointmentListPage implements OnInit {
 
   async ngOnInit () {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Tu solicitud está en procesando... Espere un momento'
     });
     
     await loading.present();

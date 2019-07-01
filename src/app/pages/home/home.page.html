@@ -15,55 +15,279 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content> 
   <ion-card *ngIf="ambulance" class="ambulance-card" (click)="goAmbulanceCheck ()">
     <ion-item color="danger" *ngIf="ambulance?.state === 'created'">
-      <ion-avatar slot="start">
-        <img src="assets/imgs/ambulance.png">
-      </ion-avatar>
-
-      <ion-label text-wrap >
-        <ion-text color="white">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/imgs/ambulance.png">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
           <h3><b>Ambulancia solicitada</b></h3>
         </ion-text>
-        <p>Aun por confirmar</p>
+        <p>Aún por confirmar</p>
       </ion-label>
 
       <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
 
     <ion-item color="blue" *ngIf="ambulance?.state === 'approved'">
-      <ion-avatar item-start>
-        <img src="assets/imgs/ambulance.png">
-      </ion-avatar>
-      <h2 class="label-white"><b>Ambulancia solicitada</b></h2>
-      <p text-wrap>
-        Aprobado, esperando que la ambulancia se ponga en camino
-      </p>
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/imgs/ambulance.png">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Ambulancia solicitada</b></h3>
+        </ion-text>
+        <p>Aprobado, esperando que la ambulancia se ponga en camino</p>
+      </ion-label>
 
-      <button ion-button item-end outline clear icon-only>
-        <ion-icon color="light" name="arrow-round-forward"></ion-icon>
-      </button>
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
 
     <ion-item color="green" *ngIf="ambulance?.state === 'sent'">
-        <ion-avatar item-start>
-          <img src="assets/imgs/ambulance.png">
-        </ion-avatar>
-        <h2 class="label-white"><b>Ambulancia solicitada</b></h2>
-        <p text-wrap>
-          Enviado, Ambulancia en camino
-        </p>
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/imgs/ambulance.png">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Ambulancia solicitada</b></h3>
+        </ion-text>
+        <p>Enviado, Ambulancia en camino</p>
+      </ion-label>
 
-        <button ion-button item-end outline clear icon-only>
-          <ion-icon color="light" name="arrow-round-forward"></ion-icon>
-        </button>
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
   </ion-card>
 
+  <ion-card *ngIf="home_pressure" class="ambulance-card" (click)="seeHomePressure ()">
+    <ion-item color="blue" *ngIf="home_pressure?.state === 'created'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-10.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Enfermera a domicilio</b></h3>
+        </ion-text>
+        <p>Aún por confirmar</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+
+    <ion-item color="red" *ngIf="home_pressure?.state === 'observed'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-10.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Enfermera a domicilio</b></h3>
+        </ion-text>
+        <p>Ver detalles...</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+
+    <ion-item color="green" *ngIf="home_pressure?.state === 'approved'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-10.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Enfermera a domicilio</b></h3>
+        </ion-text>
+        <p>Prosiga con el pago</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+
+    <ion-item color="green" *ngIf="home_pressure?.state === 'completed'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-10.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Enfermera a domicilio</b></h3>
+        </ion-text>
+        <p>Pedido contra entrega</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="home_doctor" class="ambulance-card" (click)="seeHomeDoctor ()">
+    <ion-item color="blue" *ngIf="home_doctor?.state === 'created'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-06.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Medico a domicilio</b></h3>
+        </ion-text>
+        <p>Aún por confirmar</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+
+    <ion-item color="red" *ngIf="home_doctor?.state === 'observed'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-06.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Medico a domicilio</b></h3>
+        </ion-text>
+        <p>Ver detalles...</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+
+    <ion-item color="green" *ngIf="home_doctor?.state === 'approved'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-06.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Medico a domicilio</b></h3>
+        </ion-text>
+        <p>Prosiga con el pago</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+
+    <ion-item color="green" *ngIf="home_doctor?.state === 'completed'">
+      <ion-thumbnail slot="start">
+        <img class="img-size" src="assets/icon/iconos-06.jpg">
+      </ion-thumbnail>
+        
+      <ion-label text-wrap>
+        <ion-text>
+          <h3><b>Medico a domicilio</b></h3>
+        </ion-text>
+        <p>Pedido contra entrega</p>
+      </ion-label>
+
+      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+    </ion-item>
+  </ion-card>
+
+  <ion-list>
+    <ion-card *ngIf="oxygen_recharge !== undefined">
+      <ion-item (click)="goOxygenRechargeDetail ()">
+        <ion-thumbnail slot="start">
+          <img class="img-size" src="assets/icon/recarga_ox.svg">
+        </ion-thumbnail>
+        
+        <ion-label text-wrap>
+          <ion-text>
+            <h3>Recarga de oxígeno</h3>
+          </ion-text>
+          <ion-badge *ngIf="oxygen_recharge?.state === 'created'" color="danger">Solicitado</ion-badge>
+          <ion-badge *ngIf="oxygen_recharge?.state === 'approved'" color="blue">Aprobado</ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="ads_materia !== undefined">
+      <ion-item (click)="GoAdsMaterialDetail ()">
+        <ion-thumbnail slot="start">
+          <img class="img-size" src="assets/icon/material_pub.svg">
+        </ion-thumbnail>
+        
+        <ion-label text-wrap>
+          <ion-text>
+            <h3>Material publicitario</h3>
+          </ion-text>
+          <ion-badge *ngIf="ads_materia?.state === 'created'" color="danger">Solicitado</ion-badge>
+          <ion-badge *ngIf="ads_materia?.state === 'approved'" color="blue">Aprobado</ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="trainings !== undefined">
+      <ion-item (click)="goTrainingsDetail ()">
+        <ion-thumbnail slot="start">
+          <img class="img-size" src="assets/icon/capacitacion.svg">
+        </ion-thumbnail>
+        
+        <ion-label text-wrap>
+          <ion-text>
+            <h3>Capacitaciones</h3>
+          </ion-text>
+          <ion-badge *ngIf="trainings?.state === 'created'" color="danger">Solicitado</ion-badge>
+          <ion-badge *ngIf="trainings?.state === 'approved'" color="blue">Aprobado</ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="visits !== undefined">
+      <ion-item (click)="goVisitsDetail ()">
+        <ion-thumbnail slot="start">
+          <img class="img-size" src="assets/icon/visita_rep.svg">
+        </ion-thumbnail>
+        
+        <ion-label text-wrap>
+          <ion-text>
+            <h3>Visita de representante comercial</h3>
+          </ion-text>
+          <ion-badge *ngIf="visits?.state === 'created'" color="danger">Solicitado</ion-badge>
+          <ion-badge *ngIf="visits?.state === 'approved'" color="blue">Aprobado</ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="medical_kit !== undefined">
+      <ion-item (click)="goMedicalKitDetail ()">
+        <ion-thumbnail slot="start">
+          <img class="img-size" src="assets/icon/botiquin.svg">
+        </ion-thumbnail>
+        
+        <ion-label text-wrap>
+          <ion-text>
+            <h3>Botiquines</h3>
+          </ion-text>
+          <ion-badge *ngIf="medical_kit?.state === 'created'" color="danger">Solicitado</ion-badge>
+          <ion-badge *ngIf="medical_kit?.state === 'approved'" color="blue">Aprobado</ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="occupational_exam !== undefined">
+      <ion-item (click)="goOccupationalEexamDetail ()">
+        <ion-thumbnail slot="start">
+          <img class="img-size" src="assets/icon/ex_ocup.svg">
+        </ion-thumbnail>
+        
+        <ion-label text-wrap>
+          <ion-text>
+            <h3>Examenes ocupacionales</h3>
+          </ion-text>
+          <ion-badge *ngIf="occupational_exam?.state === 'created'" color="danger">Solicitado</ion-badge>
+          <ion-badge *ngIf="occupational_exam?.state === 'approved'" color="blue">Aprobado</ion-badge>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+  
   <div text-center>
-    <h2 text-wrap class="title-color">Hola Alain Y. Meza Huaman</h2>
-    <h4 title-color>Partner: PuntoPro</h4>
+    <h2 text-wrap class="title-color">Bienvenido {{ auth.user.fullname }}</h2>
+    <h4 text-wrap title-color>Partner: {{ auth.user.company_name }}</h4>
   </div>
 
   <div text-center>
@@ -72,37 +296,52 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goEmergencyPage ()">
-          <img class="logo-css" src="assets/icono.svg">
-          <h5 text-wrap>Emergencia</h5>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goEmergencyPage ()" no-margin no-padding>
+          <img class="logo-css" src="assets/icon/iconos-01.jpg">
+          <h6 text-wrap>Emergencia</h6>
         </ion-card>
       </ion-col>
 
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="GoAppointmentSpecialty ()">
-          <img class="logo-css" src="assets/icono.svg">
-          <h5 text-wrap>Hacer una cita</h5>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin> 
+        <ion-card padding class="home-item" text-center (click)="GoAppointmentSpecialty ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/iconos-02.jpg">
+          <h6 text-wrap>Reservar una cita</h6>
+          <small>(No emergencia)</small>
         </ion-card>
       </ion-col>
 
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goSupplies ()">
-          <img class="logo-css" src="assets/icono.svg">
-          <h5 text-wrap>Suministros</h5>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goHomeDoctor ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/iconos-11.jpg">
+          <h6 text-wrap>Médico a domicilio</h6>
         </ion-card>
       </ion-col>
 
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3">
-        <ion-card class="home-item" text-center (click)="goCPSRadio ()">
-          <img class="logo-css" src="assets/icono.svg">
-          <h5 text-wrap>Radio CPS</h5>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goHomeNurse ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/iconos-10.jpg">
+          <h6 text-wrap>Enfermera a domicilio</h6>
         </ion-card>
       </ion-col>
 
-      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12">
-        <ion-card class="home-item" text-center (click)="goBlogNews ()">
-          <h4>Blog, noticias & articulos</h4>
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goSupplies ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/suministros.svg">
+          <h6 text-wrap>Suministros</h6>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goCPSRadio ()" no-padding no-margin>
+          <img class="logo-css" src="assets/icon/radio cps.svg">
+          <h6 text-wrap>Radio CPS</h6>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="12" no-padding no-margin>
+        <ion-card padding class="home-item" text-center (click)="goBlogNews ()" no-padding no-margin>
+          <h6>Blog, noticias y artículos</h6>
         </ion-card>
       </ion-col>
     </ion-row>

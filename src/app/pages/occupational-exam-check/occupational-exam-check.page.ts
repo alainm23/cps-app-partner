@@ -5,6 +5,8 @@ import { AlertController, ActionSheetController, NavController, MenuController, 
 import { DatabaseService } from '../../services/database.service';
 import { StorageService } from '../../services/storage.service';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-occupational-exam-check',
   templateUrl: './occupational-exam-check.page.html',
@@ -21,7 +23,7 @@ export class OccupationalExamCheckPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingController.create({
-      message: 'Hellooo'
+      message: 'Tu solicitud está en procesando... espere un momento'
     });
             
     await loading.present();
@@ -29,7 +31,7 @@ export class OccupationalExamCheckPage implements OnInit {
     this.storage.getParams_2 ().then (data => {
       const params = JSON.parse (data);
 
-      if (params.state === 'created') {
+      if (params.state === 'created' || params.state === 'approved') {
         this.database.getOccupationalExamById (params.id).subscribe (data => {
           this._object = data;
           loading.dismiss ();
@@ -59,5 +61,20 @@ export class OccupationalExamCheckPage implements OnInit {
     });
 
     this.navCtrl.navigateForward ('occupational-exam');
+  }
+
+  getRelativeDateTime (data: string) {
+    return moment(data, "").fromNow();
+  }
+   
+  getFormatDateTime (data: string) {
+    return moment(data).format("lll"); 
+  }
+
+  cancel () {
+    this.database.cancelOccupationalExam (this._object)
+      .then (() => {
+        this.goHome ();
+      });
   }
 }

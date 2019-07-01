@@ -1,0 +1,128 @@
+<ion-header>
+  <ion-toolbar class="toolbar"> 
+    <ion-buttons slot="start">
+      <ion-back-button color="blue"></ion-back-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome ()">
+        <img class="logo" src="assets/logo.png">
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-menu-button></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item text-center lines="none">
+          <ion-label>
+            <h1 *ngIf="!is_edit" class="title-label">Enfermera a domicilio</h1>
+            <h1 *ngIf="is_edit" class="title-label">Editar enfermera a domicilio</h1>
+          </ion-label>
+        </ion-item>
+
+        <form [formGroup]="form">
+          <ion-list>
+            <ion-radio-group formControlName="s_tipo" (ionChange)="changeRadio ()">
+              <ion-list-header>
+                <ion-label>Seleccione un servicio:</ion-label>
+              </ion-list-header>
+
+              <ion-item>
+                <ion-label>Control de presión</ion-label>
+                <ion-radio slot="start" value="s_01"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Control de funciones vitales</ion-label>
+                <ion-radio slot="start" value="s_02"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Curacion simples</ion-label>
+                <ion-radio slot="start" value="s_03"></ion-radio>
+              </ion-item>
+
+              <ion-item text-wrap>
+                <ion-label>Cambio de sondas, bolsa de colostomía</ion-label>
+                <ion-radio slot="start" value="s_04"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Otros</ion-label>
+                <ion-radio slot="start" value="s_05"></ion-radio>
+              </ion-item>  
+            </ion-radio-group>
+
+            <ion-item margin-top *ngIf="form.controls?.s_tipo.value === 's_05'">
+              <ion-label position="stacked">Detalle su solicitud</ion-label>
+              <ion-textarea rows="4" formControlName="note" placeholder="Ingrese un detalle aqui ..."></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Fecha:</ion-label>
+              <ion-datetime formControlName="date" display-format="MMM DD, YYYY"></ion-datetime>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Horario:</ion-label>
+              <ion-select placeholder="Elija una hora" formControlName="hour">
+                <div *ngFor="let item of get_hours ()">
+                  <ion-select-option *ngIf="check_hour (item)" [value]="item">
+                    {{ item }}
+                  </ion-select-option>
+                </div>
+              </ion-select>
+            </ion-item>
+            
+            <div class="margin-left-xd">
+              <ion-label position="stacked">Número de teléfono:</ion-label>
+            </div>
+
+            <ion-item>
+              <ion-button slot="start" size="small" color="blue" (click)="select_code ()">
+                <img async [src]="getFlat ()">&nbsp;
+                {{ pais_selected.dial_code }}
+              </ion-button>
+
+              <ion-input type="tel" formControlName="phone_number" placeholder="Numero de teléfono">
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="stacked">Dirección:</ion-label>
+              <ion-input formControlName="address" placeholder="Direccion"></ion-input>
+            </ion-item>
+
+            <div text-right>
+              <p class="margin-right" (click)="getCurrentLocation ()">Ubicación actual</p>
+            </div>
+
+            <ion-card margin class="map-class">
+              <div #map id="map"></div>
+            </ion-card>
+          </ion-list>
+
+          <div text-center>
+            <ion-button *ngIf="!is_edit" class="no-border" color="blue" [disabled]="!form.valid" (click)="submit ()">
+              Pedir
+            </ion-button>
+
+            <ion-button *ngIf="is_edit" class="no-border" ion-button color="blue" [disabled]="!form.valid" (click)="submit ()">
+              Actualizar
+            </ion-button>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

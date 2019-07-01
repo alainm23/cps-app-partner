@@ -23,6 +23,10 @@ export class DatabaseService {
     return this.afs.collection ("User_Partner").doc (uid).valueChanges ();
   }
 
+  updateToken (uid: string, token: string) {
+    return this.afs.collection ("User_Partner").doc (uid).update ({ token_id: token });
+  }
+  
   async addAppointment (id: string, data: any) {
     let codigo = this.afs.createId ();
    
@@ -73,9 +77,11 @@ export class DatabaseService {
   async addSendAmbulance (data: any, id: string) {
     var batch = this.afs.firestore.batch ();
 
-    let step_1 = this.afs.collection ('Emergencias_Progreso').doc (id).ref;
-    
+    const step_1 = this.afs.collection ('Emergencias_Progreso').doc (id).ref;
     batch.set (step_1, data);
+
+    const step_2 = this.afs.collection ('User_Partner').doc (id).ref; 
+    batch.update (step_2, { 'phone_number': data.phone_number });
 
     await batch.commit ();
   }
@@ -658,5 +664,264 @@ export class DatabaseService {
 
   async updateOccupationalExam (uid: string, data: any) {
     return this.afs.collection ('Examen_Ocupacional_Proceso').doc (uid).update (data);
+  }
+  
+  // Presure Home
+  async addHomePressure (id: string, data: any) {
+    let batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection('Presion_Casa_Proceso').doc (id).ref;
+    let step_2 = this.afs.collection('Users').doc (id).ref;
+
+    batch.set (step_1, data);    
+    await batch.commit ();
+  }
+
+  getHomePressureByKey (id: string) {
+    return this.afs.collection ("Presion_Casa_Proceso").doc (id).valueChanges ();
+  }
+
+  async updateHomePressure (id: string, data: any) {
+    var batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection ("Presion_Casa_Proceso").doc (id).ref;
+
+    batch.update (step_1, data);
+    
+    return await batch.commit ();
+  }
+
+  async updateHomePressureOnlinePaid (id: string, transaccion_id: any) {
+    var batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection ("Presion_Casa_Proceso").doc (id).ref;
+    batch.update (step_1, { 'is_paid': true, 
+                            'state': 'completed',
+                            'transaccion_id': transaccion_id,
+                            'payment_type': 'online' });
+    return await batch.commit ();
+  }
+
+  async updateHomePressureCanceled (id: string, data: any, observations: any) {
+    const id_old = data.id;
+    const codigo = this.afs.createId ();
+    data.id = codigo;
+
+    var batch = this.afs.firestore.batch ();
+    
+    for (let item of observations) {
+      let any_1 = this.afs.collection ('Presion_Casa_Proceso').doc (id_old).collection ('observations').doc (item.id).ref;
+      batch.delete (any_1);
+      
+      let any_2 = this.afs.collection ('Presion_Casa_Canceladas').doc (codigo).collection ('observations').doc (item.id).ref;
+      batch.set (any_2, item);
+    }
+
+    let step_1 = this.afs.collection ('Presion_Casa_Proceso').doc (id_old).ref;
+    batch.delete (step_1);
+
+    let step_2 = this.afs.collection ('Presion_Casa_Canceladas').doc (codigo).ref;
+    batch.set (step_2, data);
+
+    let step_4 = this.afs.collection ('Usuario_Cancelados').doc (id_old).collection ("Presion_Casa").doc (codigo).ref;
+    batch.set (step_4, { 'id': codigo });
+
+    let step_5 = this.afs.collection ('Admin_Canceladas').doc ("Presion_Casa").collection (moment().format('YYYY[-]MM')).doc (codigo).ref;
+    batch.set (step_5, { 'id': codigo });
+    
+    return await batch.commit (); 
+  }
+
+  async updateHomePressureContraEntrega (id: string) {
+    var batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection ("Presion_Casa_Proceso").doc (id).ref;
+
+    batch.update (step_1, { 'is_paid': false, 
+                            'state': 'completed',
+                            'payment_type': 'cash' });
+
+    return await batch.commit ();
+  }
+
+  getHomePressureFinalizadosByKey (id: string) {
+    return this.afs.collection ("Presion_Casa_Finalizadas").doc (id).valueChanges ();
+  }
+
+  getHomePressureFinalizadosByUser (id: string) {
+    const collection = this.afs.collection ("Usuario_Finalizados").doc (id).collection ("Presion_Casa");
+
+    return collection.snapshotChanges ().pipe (map (refReferencias => {
+      if (refReferencias.length > 0) {
+        return refReferencias.map (refReferencia => {
+          const data: any = refReferencia.payload.doc.data();
+
+          return this.getHomePressureFinalizadosByKey (data.id).pipe (map (dataGeneral => Object.assign ({}, {data, dataGeneral})));
+        });
+      }
+    })).mergeMap (observables => {
+      if (observables) {
+        return combineLatest(observables);
+      } else {
+        return of([]);
+      }
+    });
+  }
+
+  getHomePressureCanceladoByKey (id: string) {
+    return this.afs.collection ("Presion_Casa_Canceladas").doc (id).valueChanges ();
+  }
+
+  getHomePressureCanceladoByUser (id: string) {
+    const collection = this.afs.collection ("Usuario_Cancelados").doc (id).collection ("Presion_Casa");
+
+    return collection.snapshotChanges ().pipe (map (refReferencias => {
+      if (refReferencias.length > 0) {
+        return refReferencias.map (refReferencia => {
+          const data: any = refReferencia.payload.doc.data();
+
+          return this.getHomePressureCanceladoByKey (data.id).pipe (map (dataGeneral => Object.assign ({}, {data, dataGeneral})));
+        });
+      }
+    })).mergeMap (observables => {
+      if (observables) {
+        return combineLatest(observables);
+      } else {
+        return of([]);
+      }
+    });
+  }
+
+  getHomePressureObservations (id: string) {
+    return this.afs.collection ('Presion_Casa_Proceso').doc (id).collection ('observations', ref => ref.orderBy ('date')).valueChanges ();
+  }
+
+  // Home Doctor
+  async addHomeDoctor (id: string, data: any) {
+    let batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection('Doctor_Casa_Proceso').doc (id).ref;
+    batch.set (step_1, data);
+
+    await batch.commit ();
+  }
+
+  getHomeDoctorByKey (id: string) {
+    return this.afs.collection ("Doctor_Casa_Proceso").doc (id).valueChanges ();
+  }
+
+  async updateHomeDoctor (id: string, data: any) {
+    var batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection ("Doctor_Casa_Proceso").doc (id).ref;
+
+    batch.update (step_1, data);
+    
+    return await batch.commit ();
+  }
+
+  async updateHomeDoctorOnlinePaid (id: string, transaccion_id: any) {
+    var batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection ("Doctor_Casa_Proceso").doc (id).ref;
+    batch.update (step_1, { 'is_paid': true, 
+                            'state': 'completed',
+                            'transaccion_id': transaccion_id,
+                            'payment_type': 'online' });
+    return await batch.commit ();
+  }
+
+  async updateHomeDoctorCanceled (id: string, data: any, observations: any) {
+    const id_old = data.id;
+    const codigo = this.afs.createId ();
+    data.id = codigo;
+
+    var batch = this.afs.firestore.batch ();
+    
+    for (let item of observations) {
+      let any_1 = this.afs.collection ('Doctor_Casa_Proceso').doc (id_old).collection ('observations').doc (item.id).ref;
+      batch.delete (any_1);
+      
+      let any_2 = this.afs.collection ('Doctor_Casa_Cancelados').doc (codigo).collection ('observations').doc (item.id).ref;
+      batch.set (any_2, item);
+    }
+
+    let step_1 = this.afs.collection ('Doctor_Casa_Proceso').doc (id_old).ref;
+    batch.delete (step_1);
+
+    let step_2 = this.afs.collection ('Doctor_Casa_Cancelados').doc (codigo).ref;
+    batch.set (step_2, data);
+
+    let step_4 = this.afs.collection ('Usuario_Cancelados').doc (id_old).collection ("Doctor_Casa").doc (codigo).ref;
+    batch.set (step_4, { 'id': codigo });
+
+    let step_5 = this.afs.collection ('Admin_Canceladas').doc ("Doctor_Casa").collection (moment().format('YYYY[-]MM')).doc (codigo).ref;
+    batch.set (step_5, { 'id': codigo });
+    
+    return await batch.commit (); 
+  }
+
+  async updateHomeDoctorContraEntrega (id: string) {
+    var batch = this.afs.firestore.batch ();
+
+    let step_1 = this.afs.collection ("Doctor_Casa_Proceso").doc (id).ref;
+
+    batch.update (step_1, { 'is_paid': false, 
+                            'state': 'completed',
+                            'payment_type': 'cash' });
+
+    return await batch.commit ();
+  }
+
+  getHomeDoctorFinalizadosByKey (id: string) {
+    return this.afs.collection ("Doctor_Casa_Finalizados").doc (id).valueChanges ();
+  }
+
+  getHomeDoctorFinalizadosByUser (id: string) {
+    const collection = this.afs.collection ("Usuario_Finalizados").doc (id).collection ("Doctor_Casa");
+
+    return collection.snapshotChanges ().pipe (map (refReferencias => {
+      if (refReferencias.length > 0) {
+        return refReferencias.map (refReferencia => {
+          const data: any = refReferencia.payload.doc.data();
+
+          return this.getHomeDoctorFinalizadosByKey (data.id).pipe (map (dataGeneral => Object.assign ({}, {data, dataGeneral})));
+        });
+      }
+    })).mergeMap (observables => {
+      if (observables) {
+        return combineLatest(observables);
+      } else {
+        return of([]);
+      }
+    });
+  }
+
+  getHomeDoctorCanceladoByKey (id: string) {
+    return this.afs.collection ("Doctor_Casa_Cancelados").doc (id).valueChanges ();
+  }
+
+  getHomeDoctorCanceladoByUser (id: string) {
+    const collection = this.afs.collection ("Usuario_Cancelados").doc (id).collection ("Doctor_Casa");
+
+    return collection.snapshotChanges ().pipe (map (refReferencias => {
+      if (refReferencias.length > 0) {
+        return refReferencias.map (refReferencia => {
+          const data: any = refReferencia.payload.doc.data();
+
+          return this.getHomeDoctorCanceladoByKey (data.id).pipe (map (dataGeneral => Object.assign ({}, {data, dataGeneral})));
+        });
+      }
+    })).mergeMap (observables => {
+      if (observables) {
+        return combineLatest(observables);
+      } else {
+        return of([]);
+      }
+    });
+  }
+
+  getHomeDoctorObservations (id: string) {
+    return this.afs.collection ('Doctor_Casa_Proceso').doc (id).collection ('observations', ref => ref.orderBy ('date')).valueChanges ();
   }
 }

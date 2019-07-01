@@ -27,6 +27,13 @@ const routes: Routes = [
   { path: 'visits-check', loadChildren: './pages/visits-check/visits-check.module#VisitsCheckPageModule' },
   { path: 'medical-kit-check', loadChildren: './pages/medical-kit-check/medical-kit-check.module#MedicalKitCheckPageModule' },
   { path: 'occupational-exam-check', loadChildren: './pages/occupational-exam-check/occupational-exam-check.module#OccupationalExamCheckPageModule' },
+  { path: 'select-countries', loadChildren: './modals/select-countries/select-countries.module#SelectCountriesPageModule' },
+  { path: 'home-doctor', loadChildren: './pages/home-doctor/home-doctor.module#HomeDoctorPageModule' },
+  { path: 'home-nurse', loadChildren: './pages/home-nurse/home-nurse.module#HomeNursePageModule' },
+  { path: 'home-doctor-check', loadChildren: './pages/home-doctor-check/home-doctor-check.module#HomeDoctorCheckPageModule' },
+  { path: 'home-nurse-check', loadChildren: './pages/home-nurse-check/home-nurse-check.module#HomeNurseCheckPageModule' },
+  { path: 'payment', loadChildren: './modals/payment/payment.module#PaymentPageModule' },
+  { path: 'subcategorias', loadChildren: './modals/subcategorias/subcategorias.module#SubcategoriasPageModule' }
 ];
 
 @NgModule({

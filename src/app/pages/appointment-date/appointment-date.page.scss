@@ -40,8 +40,7 @@
 .enabled-day {
   padding: 5px;
   font-weight: bold;
-  //background-color: green;
-  color: red;
+  color: #230084;
 }
 
 .calendar-body {
@@ -69,3 +68,23 @@
 .card-es {
   border-radius: 6px;
 }
+
+.dot-gray {
+    height: 16px;
+    width: 16px;
+    background: #230084;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .dot-black {
+    height: 16px;
+    width: 16px;
+    border:3px solid #230084;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .leyend {
+    margin-bottom: 3px;
+  }

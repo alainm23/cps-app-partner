@@ -22,19 +22,13 @@
 <ion-content padding>
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
-          <img src="http://lorempixel.com/128/128/sports">  
+          <img class="logo-size" [src]="auth.user.logotipo">  
         </div>
       </ion-col>
-      
-      <ion-col size="2" class="ion-align-self-center">
-        <div text-center>
-          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
-        </div>
-      </ion-col>
-
-      <ion-col size="5" class="ion-align-self-center">
+    
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
           <h2 *ngIf="is_edit === true" text-wrap class="title-color">Editar capacitaciones</h2>
           <h2 *ngIf="is_edit === false" text-wrap class="title-color">Capacitaciones</h2>
@@ -48,43 +42,77 @@
       <ion-col>
         <ion-grid>
           <ion-row>
-            <ion-col size="6">
-              <ion-card [color]="color_01" (click)="change_value (1)">
+            <ion-col size="6" class="center">
+              <ion-card class="home-item" [color]="color_01" (click)="change_value (1)" no-margin no-padding>
                 <p class="text-center">Primeros auxilios</p>
-                <p class="text-center"><small>Duracion - 3 horas</small></p>
+                <p class="text-center"><small>Duración: 4 horas</small></p>
               </ion-card>
             </ion-col>
 
-            <ion-col size="6">
-              <ion-card [color]="color_02" (click)="change_value (2)">
+            <ion-col size="6" class="center">
+              <ion-card class="home-item" [color]="color_02" (click)="change_value (2)" no-margin no-padding>
                 <p class="text-center">Brigadas de emergencia</p>
-                <p class="text-center"><small>Duracion - 7 horas</small></p>
+                <p class="text-center"><small>Duración: 3 horas</small></p>
               </ion-card>
             </ion-col>
 
-            <ion-col size="6">
-              <ion-card [color]="color_03" (click)="change_value (3)">
-                <p class="text-center">Manejo de exintores</p>
-                <p class="text-center"><small>Duracion - 2 horas</small></p>
+            <ion-col size="6" class="center">
+              <ion-card class="home-item" [color]="color_03" (click)="change_value (3)" no-margin no-padding>
+                <p class="text-center">Manejo de extintores</p>
+                <p class="text-center"><small>Duración: 2 horas</small></p>
               </ion-card>
             </ion-col>
 
-            <ion-col size="6">
-              <ion-card [color]="color_04" (click)="change_value (4)">
-                <p class="text-center">Nutricion</p>
-                <p class="text-center"><small>Duracion - 5 horas</small></p>
+            <ion-col size="6" class="center">
+              <ion-card class="home-item" [color]="color_04" (click)="change_value (4)" no-margin no-padding>
+                <p class="text-center">Manipulación de alimentos</p>
+                <p class="text-center"><small>Duración: 2 horas</small></p>
               </ion-card>
             </ion-col>
           </ion-row>
+
+          <ion-list>
+            <form [formGroup]="form">
+              <ion-item>
+                <ion-label position="stacked">Cantidad de participantes:</ion-label>
+                <ion-input type="number" formControlName="numero_personas" placeholder="Número de personas"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="stacked">Fecha:</ion-label>
+                <ion-datetime mode="ios" formControlName="date" cancelText="Cancelar" doneText="Seleccionar"
+                 monthNames="enero, febrero, marzo, abril, mayo, junio, julio, agosto, septiembre, octubre, noviembre, diciembre"
+                 display-format="MMMM DD, YYYY" placeholder="Elija una fecha"></ion-datetime>
+              </ion-item>
+
+              <div class="margin-left-xd">
+                <ion-label position="stacked">Número de teléfono:</ion-label>
+              </div>
+
+              <ion-item>
+                <ion-button slot="start" size="small" color="blue" (click)="select_code ()">
+                  <img async [src]="getFlat ()">&nbsp;
+                  {{ pais_selected.dial_code }}
+                </ion-button>
+
+                <ion-input type="tel" formControlName="phone_number" placeholder="Numero de teléfono">
+                </ion-input>
+              </ion-item>
+            </form>
+          </ion-list>
+
+          <div text-center>
+            <p>* Una representare comercial se pondrá en contacto con ustedes</p>
+          </div>
         </ion-grid>
 
         <ion-grid>
           <ion-row>
             <ion-col size="8" offset="2">
-              <ion-button [disabled]="item_01 === false && item_02 === false && item_03 === false && item_04 === false" *ngIf="is_edit === true" expand="block" color="blue" (click)="submit ()">
+              <ion-button [disabled]="!form.valid" *ngIf="is_edit === true" expand="block" color="blue" (click)="submit ()">
                 Actualizar
               </ion-button>
-              <ion-button [disabled]="item_01 === false && item_02 === false && item_03 === false && item_04 === false" *ngIf="is_edit === false" expand="block" color="blue" (click)="submit ()">
+              <ion-button [disabled]="!form.valid" *ngIf="is_edit === false" expand="block" color="blue" (click)="submit ()">
                 Pedir
               </ion-button>  
             </ion-col>

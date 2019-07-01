@@ -22,20 +22,14 @@
 <ion-content padding>
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
-          <img src="http://lorempixel.com/128/128/sports">  
+          <img class="logo-size" [src]="auth.user.logotipo">  
         </div>
       </ion-col>
       
-      <ion-col size="2" class="ion-align-self-center">
-        <div text-center>
-          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
-        </div>
-      </ion-col>
-
-      <ion-col size="5" class="ion-align-self-center">
-        <div text-center>
+      <ion-col size="6" class="ion-align-self-center">
+        <div text-center text-wrap>
           <h2 *ngIf="is_edit === true" text-wrap class="title-color">
             Editar capacitaciones
           </h2>
@@ -53,25 +47,7 @@
         <ion-list>
           <form [formGroup]="form" (ngSubmit)="submit ()">
             <ion-item color="entry-color">
-              <ion-label>Fecha</ion-label>
-              <ion-datetime formControlName="date" display-format="MMM DD, YYYY"></ion-datetime>
-            </ion-item>
-
-            <div *ngIf="form.controls.date.errors?.required">
-              <small class="color-red">* Este campo es necesario</small>
-            </div>
-
-            <ion-item color="entry-color"> 
-              <ion-label>Hora</ion-label>
-              <ion-datetime formControlName="hour" display-format="h:mm"></ion-datetime>
-            </ion-item>
-
-            <div *ngIf="form.controls.hour.errors?.required">
-              <small class="color-red">* Este campo es necesario</small>
-            </div>
-
-            <ion-item color="entry-color">
-              <ion-input formControlName="contact_phone_number" type="text" placeholder="Telefono de contacto"></ion-input>
+              <ion-input formControlName="contact_phone_number" type="text" placeholder="Teléfono de contacto"></ion-input>
             </ion-item>
 
             <div *ngIf="form.controls.contact_phone_number.errors?.required">
@@ -79,12 +55,16 @@
             </div>
 
             <ion-item color="entry-color">
-              <ion-label slot="start">Cantidad de evaluados</ion-label>
-              <ion-input formControlName="cantidad" slot="end" type="text" placeholder="0"></ion-input>
+              <ion-label slot="start">Cantidad de evaluados:</ion-label>
+              <ion-input formControlName="cantidad" type="number" placeholder="0"></ion-input>
             </ion-item> 
 
             <div *ngIf="form.controls.cantidad.errors?.required">
               <small class="color-red">* Este campo es necesario</small>
+            </div>
+
+            <div text-center>
+              <p>* Una representare comercial se pondrá en contacto con ustedes</p>
             </div>
           </form> 
         </ion-list>

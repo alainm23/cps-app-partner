@@ -24,50 +24,32 @@
     <ion-row>
       <ion-col>
         <div text-center>
-          <h2 text-wrap class="title-color">Material publicitario</h2>
+          <h2 text-wrap class="title-color">Visita de representante comercial</h2>
           <h4 title-color>{{ _object?.user_company_name }}</h4>
         </div>
 
         <ion-list>
           <ion-item-divider>
             <ion-label>
-              <b>Fecha</b>
+              <b>Fecha y hora de solicitud:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
-            {{ _object?.created_date }}
+            {{ getFormatDateTime (_object?.created_date) }}
           </ion-item>
 
           <ion-item-divider>
             <ion-label>
-              <b>Cliente</b>
+              <b>Fecha requerida de visita:</b>
             </ion-label>
           </ion-item-divider>
           <ion-item>
-            {{ _object?.user_fullname }}
+            {{ getFormatDateTime (_object?.date) }}
           </ion-item>
 
           <ion-item-divider>
             <ion-label>
-              <b>Asunto</b>
-            </ion-label> 
-          </ion-item-divider>
-          <ion-item>
-            {{ _object?.subject }}
-          </ion-item>
-
-          <ion-item-divider>
-            <ion-label>
-              <b>Fecha</b>
-            </ion-label> 
-          </ion-item-divider>
-          <ion-item>
-            {{ _object?.date }}
-          </ion-item>
-
-          <ion-item-divider>
-            <ion-label>
-              <b>Hora</b>
+              <b>Hora de visita:</b>
             </ion-label> 
           </ion-item-divider>
           <ion-item>
@@ -76,7 +58,25 @@
 
           <ion-item-divider>
             <ion-label>
-              <b>Telefono de contacto</b>
+              <b>Cliente:</b>
+            </ion-label>
+          </ion-item-divider>
+          <ion-item>
+            {{ _object?.user_fullname }}
+          </ion-item>
+
+          <ion-item-divider>
+            <ion-label>
+              <b>Asunto:</b>
+            </ion-label> 
+          </ion-item-divider>
+          <ion-item>
+            {{ _object?.subject }}
+          </ion-item>
+
+          <ion-item-divider>
+            <ion-label>
+              <b>Teléfono de contacto</b>
             </ion-label> 
           </ion-item-divider>
           <ion-item>
@@ -85,8 +85,12 @@
         </ion-list>
 
         <div text-center>
-          <ion-button (click)="edit ()" color="blue">
+          <ion-button (click)="edit ()" color="blue" expand="block">
             Editar
+          </ion-button>
+
+          <ion-button (click)="cancel ()" color="danger" expand="block">
+            Cancelar
           </ion-button>
         </div>
       </ion-col>

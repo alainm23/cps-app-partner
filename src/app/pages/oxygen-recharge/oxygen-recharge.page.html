@@ -22,21 +22,15 @@
 <ion-content padding>
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="5" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
-          <img src="http://lorempixel.com/128/128/sports">  
+          <img class="logo-size" [src]="auth.user.logotipo">  
         </div>
       </ion-col>
       
-      <ion-col size="2" class="ion-align-self-center">
+      <ion-col size="6" class="ion-align-self-center">
         <div text-center>
-          <div style="border-left:1px solid #a09d9d;height:10rem"></div>
-        </div>
-      </ion-col>
-
-      <ion-col size="5" class="ion-align-self-center">
-        <div text-center>
-          <h2 *ngIf="is_edit === true" text-wrap class="title-color">Editar Recarga de oxigeno</h2>
+          <h2 *ngIf="is_edit === true" text-wrap class="title-color">Editar recarga de oxígeno</h2>
           <h2 *ngIf="is_edit === false" text-wrap class="title-color">Recarga de oxigeno</h2>
         </div>
       </ion-col>
@@ -47,18 +41,22 @@
     <ion-row>
       <ion-col>
         <form [formGroup]="form">
+          <ion-list-header>
+            <ion-label>Tamaño del balon:</ion-label>
+          </ion-list-header>
+          
           <ion-segment color="blue" mode="ios" formControlName="oxygen_size">
-            <ion-segment-button class="sc-ion-card-md-h" value="small">
+            <ion-segment-button value="small">
               <ion-label>Pequeño</ion-label>
             </ion-segment-button>
-            <ion-segment-button class="sc-ion-card-md-h" value="big">
+            <ion-segment-button value="big">
               <ion-label>Grande</ion-label>
             </ion-segment-button>
           </ion-segment>
 
           <ion-radio-group formControlName="time">
             <ion-list-header>
-              <ion-label>Cuando lo necesita</ion-label>
+              <ion-label>¿Cuando lo necesita?</ion-label>
             </ion-list-header>
 
             <ion-item>
