@@ -38,21 +38,34 @@ export class LoginPage implements OnInit {
     this.auth.loginEmailPassword (value.email, value.password)
       .then (response => {
         this.database.get_User_Partner (response.user.uid).subscribe (async (data: any) => {
-          if (data.is_active) {
-            this.navCtrl.navigateRoot ('/home');
-          } else {
+          if (data === null || data === undefined) {
             let alert = await this.alertController.create({
               header: 'Opppps!',
-              message: 'Su cuenta no tiene los privilegios necesarios...',
+              message: 'Partner no encontrado, comuniquese con el administrador...',
               buttons: ['OK']
             });
 
             await alert.present().then (() => {
+              loading.dismiss ();
               this.auth.signOut ();
             });
+          } else {
+            if (data.is_active) {
+              loading.dismiss ();
+              this.navCtrl.navigateRoot ('/home');
+            } else {
+              let alert = await this.alertController.create({
+                header: 'Opppps!',
+                message: 'Su cuenta no tiene los privilegios necesarios...',
+                buttons: ['OK']
+              });
+  
+              await alert.present().then (() => {
+                loading.dismiss ();
+                this.auth.signOut ();
+              });
+            }
           }
-
-          loading.dismiss ();
         });
       }, async (error: firebase.FirebaseError) => {
         loading.dismiss ();

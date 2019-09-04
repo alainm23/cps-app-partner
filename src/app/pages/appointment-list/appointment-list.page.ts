@@ -15,7 +15,7 @@ import { ApiService } from '../../services/api.service';
   styleUrls: ['./appointment-list.page.scss'],
 })
 export class AppointmentListPage implements OnInit {
-  appointments: any;
+  appointments: any [];
   constructor(public navCtrl: NavController,
               public alertController: AlertController,
               private events: Events,

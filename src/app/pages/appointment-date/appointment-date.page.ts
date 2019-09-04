@@ -29,8 +29,8 @@ export class AppointmentDatePage implements OnInit {
   final_date_format: string;
 
   enabled_days = [];
-  citas: any;
-  horas: any;
+  citas: any [];
+  horas: any [];
 
   final_data: any = {
     precio_extranjero: 0,
@@ -71,7 +71,7 @@ export class AppointmentDatePage implements OnInit {
       await loading.present();
 
       this.api.getCitasEspecialidad (this.final_data.nombre_referencia.toLowerCase ()).subscribe ((data: any) => {
-        console.log (data.citas);
+        console.log ('citas', data.citas);
 
         this.citas = data.citas;
         this.enabled_days = [];

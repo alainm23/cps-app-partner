@@ -22,7 +22,7 @@ export class SuppliesPage implements OnInit {
   ngOnInit() {
   }
     
-  async goOxygenRecharge () {
+  goOxygenRecharge () {
     this.storage.setParams_v2 ({
       edit: false
     });
@@ -30,7 +30,7 @@ export class SuppliesPage implements OnInit {
     this.navCtrl.navigateForward ('oxygen-recharge');
   }
 
-  async GoAdsMaterial () {
+  GoAdsMaterial () {
     this.storage.setParams_v2 ({
       edit: false
     });
@@ -38,7 +38,7 @@ export class SuppliesPage implements OnInit {
     this.navCtrl.navigateForward ('ads-material');
   }
 
-  async goTrainings () {
+  goTrainings () {
     this.storage.setParams_v2 ({
       edit: false
     });
@@ -46,7 +46,7 @@ export class SuppliesPage implements OnInit {
     this.navCtrl.navigateForward ('trainings');
   }
 
-  async goVisits () {
+  goVisits () {
     this.storage.setParams_v2 ({
       edit: false
     });
@@ -54,20 +54,20 @@ export class SuppliesPage implements OnInit {
     this.navCtrl.navigateForward ('visits');
   }
 
-  async goOccupationalEexam () {
+  goOccupationalEexam () {
     this.storage.setParams_v2 ({
         edit: false
-      });
+    });
 
-      this.navCtrl.navigateForward ('occupational-exam');
+    this.navCtrl.navigateForward ('occupational-exam');
   }
 
-  async goMedicalKit () {
+  goMedicalKit () {
     this.storage.setParams_v2 ({
-        edit: false
-      });
+      edit: false
+    });
 
-      this.navCtrl.navigateForward ('medical-kit');
+    this.navCtrl.navigateForward ('medical-kit');
   }
 
   goHome () {

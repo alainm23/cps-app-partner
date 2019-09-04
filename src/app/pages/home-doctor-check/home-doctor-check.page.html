@@ -241,10 +241,7 @@
                 <b>Costo</b>
               </ion-card-header> 
               <ion-card-content>
-                <p>Costo: S/.{{ getFormatPrice (home_injection?.price) }}</p>
-                <p>Delivery: S/.{{ getFormatPrice (home_injection?.delivery_price) }}</p>
-                <p>Total (inc. IGV): {{ getFormatPrice (home_injection?.price + home_injection?.delivery_price) }}</p>
-                <p margin-top>Tiempo: {{ getRelativeTime (home_injection?.delivery_time) }} min</p>
+                <p>Total (inc. IGV): {{ getFormatPrice (home_injection?.price) }}</p>
               </ion-card-content>
             </ion-card>
 

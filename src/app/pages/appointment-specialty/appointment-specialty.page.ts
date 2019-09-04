@@ -18,7 +18,7 @@ import { SubcategoriasPage } from '../../modals/subcategorias/subcategorias.page
   styleUrls: ['./appointment-specialty.page.scss'],
 })
 export class AppointmentSpecialtyPage implements OnInit {
-  url_imagenes: string = "http://preview.cps.com.pe/";
+  url_imagenes: string = "https://preview.cps.com.pe/";
   especialidades: any [];
   servicios: any [];
   sintomas: any = [];

@@ -45,8 +45,6 @@
         <ion-card padding class="home-item" text-center (click)="goMedicalKit ()" no-padding no-margin>
           <img class="logo-css" src="assets/icon/botiquin.svg">
           <h5 text-wrap>Botiquín</h5>
-          <ion-badge *ngIf="medical_kit?.state === 'created'" color="danger">Solicitado</ion-badge>
-          <ion-badge *ngIf="medical_kit?.state === 'approved'" color="blue">Aprobado</ion-badge>
         </ion-card>
       </ion-col>
 

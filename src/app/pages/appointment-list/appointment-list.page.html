@@ -20,7 +20,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="appointments?.length > 0">
+  <div *ngIf="appointments.length > 0">
     <ion-item *ngFor="let item of appointments" (click)="goAppointmentDetailPage (item.data.key)">
       <ion-label text-wrap >
         <ion-text color="dark">
@@ -33,7 +33,7 @@
       </ion-label>
     </ion-item>
   </div>
-  <div class="window-center" *ngIf="!appointments?.length > 0">
+  <div class="window-center" *ngIf="appointments.length > 0 === false">
     <ion-item lines="none" text-center>
       <ion-grid>
         <ion-row center>

@@ -31,14 +31,14 @@
     </ion-button>
   </div>
 
-  <ion-segment *ngIf="is_specialties === true"  (ionChange)="segmentChanged($event)" [(ngModel)]="type" color="blue">
+  <!--ion-segment *ngIf="is_specialties === true"  (ionChange)="segmentChanged($event)" [(ngModel)]="type" color="blue">
     <ion-segment-button value="specialties">
       <ion-label>Especialidades</ion-label>
     </ion-segment-button>
     <ion-segment-button value="services">
       <ion-label>Servicios</ion-label>
     </ion-segment-button>
-  </ion-segment>
+  </ion-segment-->
   
   <ion-grid *ngIf="type === 'specialties' && is_specialties === true">
     <ion-row>
