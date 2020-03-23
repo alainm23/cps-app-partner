@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="pe.com.cps.corporativo" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>CPS - Corporativo</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+<widget id="pe.com.cpscorporativo" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>CPS Corporativo</name>
+    <description>CPS Corporativo</description>
+    <author email="administracion@cps.com.pe" href="https://cps.com.pe">Clínica Peruano Suiza</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -92,5 +92,9 @@
     <plugin name="cordova-plugin-appavailability" spec="0.4.2" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
     <plugin name="cordova-plugin-app-version" spec="0.1.9" />
+    <plugin name="cordova-plugin-android-permissions" spec="1.0.0" />
+    <plugin name="cordova-plugin-request-location-accuracy" spec="2.3.0">
+        <variable name="PLAY_SERVICES_LOCATION_VERSION" value="16.+" />
+    </plugin>
     <engine name="android" spec="8.0.0" />
 </widget>

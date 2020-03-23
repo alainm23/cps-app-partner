@@ -27,6 +27,8 @@ import { AppAvailability } from '@ionic-native/app-availability/ngx';
 
 // Geolocation
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 
 // OneSignal
 import { OneSignal } from '@ionic-native/onesignal/ngx';
@@ -71,6 +73,8 @@ import { SubcategoriasPageModule } from './modals/subcategorias/subcategorias.mo
     SocialSharing,
     AppAvailability,
     Geolocation,
+    AndroidPermissions,
+    LocationAccuracy,
     Device,
     AppVersion,
     CallNumber,

@@ -177,16 +177,18 @@ export class AppointmentDatePage implements OnInit {
           let elem = document.getElementById ('calendar-' + day.toString ());
           elem.setAttribute("style", "border: 3px solid #230084; border-radius: 12px; color: #fff !important;");
 
-          let _month = month.toString();
+          let _month = "";
           let _day = day.toString();
 
-          if (_month.length <= 1) {
+          if ((month + 1) < 10) {
             _month = "0" + (month + 1).toString();
+          } else {
+            _month = (month + 1).toString();
           }
 
           if (_day.length <= 1) {
             _day = "0" + day.toString();
-          }
+          } 
 
           this.final_data.fecha = year.toString() + "-" + _month + "-" + _day;
 

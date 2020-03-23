@@ -21,12 +21,14 @@
     "@angular/platform-browser": "^7.2.2",
     "@angular/platform-browser-dynamic": "^7.2.2",
     "@angular/router": "^7.2.2",
+    "@ionic-native/android-permissions": "^5.14.0",
     "@ionic-native/app-availability": "^5.5.1",
     "@ionic-native/app-version": "^5.5.1",
     "@ionic-native/call-number": "^5.4.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/device": "^5.5.1",
     "@ionic-native/geolocation": "^5.3.0",
+    "@ionic-native/location-accuracy": "^5.14.0",
     "@ionic-native/onesignal": "^5.4.0",
     "@ionic-native/social-sharing": "^5.5.1",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -35,12 +37,14 @@
     "@ionic/storage": "^2.2.0",
     "call-number": "git+https://github.com/Rohfosho/CordovaCallNumberPlugin.git",
     "cordova-android": "8.0.0",
+    "cordova-plugin-android-permissions": "1.0.0",
     "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-appavailability": "0.4.2",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "4.0.1",
     "cordova-plugin-ionic-keyboard": "^2.1.3",
     "cordova-plugin-ionic-webview": "^3.1.2",
+    "cordova-plugin-request-location-accuracy": "2.3.0",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
@@ -102,7 +106,11 @@
         "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
       },
       "cordova-plugin-appavailability": {},
-      "cordova-plugin-app-version": {}
+      "cordova-plugin-app-version": {},
+      "cordova-plugin-android-permissions": {},
+      "cordova-plugin-request-location-accuracy": {
+        "PLAY_SERVICES_LOCATION_VERSION": "16.+"
+      }
     },
     "platforms": [
       "android"

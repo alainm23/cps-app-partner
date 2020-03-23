@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { FormControl, FormGroup, Validators} from "@angular/forms";
 
-import { NavController, MenuController, LoadingController, ToastController, AlertController } from '@ionic/angular';
+import { Platform, NavController, MenuController, LoadingController, ToastController, AlertController } from '@ionic/angular';
 
 import { DatabaseService } from '../../services/database.service';
 import { StorageService } from '../../services/storage.service';
@@ -10,7 +10,11 @@ import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 // Ionic
 import { ModalController } from '@ionic/angular'; 
+
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+
 declare var google: any;
 // Modals
 import { SelectCountriesPage } from '../../modals/select-countries/select-countries.page';
@@ -37,13 +41,18 @@ export class HomeDoctorPage implements OnInit {
 
   min_date: string = new Date ().toISOString ();
   directionsService: any = new google.maps.DirectionsService ();  
+
+  loading: any;
   constructor(private modalCtrl: ModalController,
               public navCtrl: NavController,
               private database: DatabaseService,
               public auth: AuthService,
               public api: ApiService,
+              private locationAccuracy: LocationAccuracy,
+              private androidPermissions: AndroidPermissions,
               private storage: StorageService,
               public loadingController: LoadingController,
+              private platform: Platform,
               private geolocation: Geolocation) { }
 
   async ngOnInit() {
@@ -56,11 +65,11 @@ export class HomeDoctorPage implements OnInit {
       lang: new FormControl ('es', Validators.required),
     });
     
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       message: 'Tu solicitud está en procesando... Espere un momento'
     });
     
-    await loading.present();
+    this.loading.present();
 
     this.storage.getParams_2 ().then (data => {
       const params = JSON.parse (data);
@@ -81,11 +90,16 @@ export class HomeDoctorPage implements OnInit {
           this.longitude = data.longitude;
           this._id = data.id;
 
-          this.InitMap (true, data.latitude, data.longitude, loading);
+          this.InitMap (true, data.latitude, data.longitude);
         });
-      } else {
+      } else { 
         this.is_edit = false;
-        this.InitMap (false, 0, 0, loading);
+
+        if (this.platform.is ('cordova')) {
+          this.checkGPSPermission ();
+        } else {
+          this.getLocationCoordinates ();
+        }
       }
     });
   }
@@ -158,112 +172,107 @@ export class HomeDoctorPage implements OnInit {
     return await modal.present();
   }
 
-  InitMap (is_edit: boolean, latitude: number, longitude: number, loading: any) {
-    this.geolocation.getCurrentPosition().then((resp) => {
-      let location;
+  async InitMap (is_edit: boolean, latitude: number, longitude: number) {
+    let location = new google.maps.LatLng (latitude, longitude);
 
-      if (is_edit) {
-        location = new google.maps.LatLng (latitude, longitude);
-      } else {
-        location = new google.maps.LatLng (resp.coords.latitude, resp.coords.longitude);
-      }
+    const options = {
+      draggable: !is_edit,  
+      scrollwheel: !is_edit, 
+      disableDoubleClickZoom: is_edit,
+      center: location,
+      zoom: 15,
+      disableDefaultUI: true,
+      streetViewControl: false,
+      clickableIcons: false,
+      scaleControl: true,
+      styles: [
+        {
+          "featureType": "poi",
+          "elementType": "labels.text",
+          "stylers": [{
+            "visibility": "off"
+          }]
+        },
+        {
+          "featureType": "poi.business",
+          "stylers": [{
+            "visibility": "off"
+          }]
+        },
+        {
+          "featureType": "road",
+          "elementType": "labels.icon",
+          "stylers": [{
+            "visibility": "off"
+          }]
+        },
+        {
+          "featureType": "transit",
+          "stylers": [{
+            "visibility": "off"
+          }]
+        }
+      ],
+      mapTypeId: 'roadmap',
+    }
 
-      loading.dismiss ();
+    this.map = await new google.maps.Map (this.mapRef.nativeElement, options);
 
-      const options = {
-        draggable: !is_edit,  
-        scrollwheel: !is_edit, 
-        disableDoubleClickZoom: is_edit,
-        center: location,
-        zoom: 15,
-        disableDefaultUI: true,
-        streetViewControl: false,
-        clickableIcons: false,
-        scaleControl: true,
-        styles: [
-          {
-            "featureType": "poi",
-            "elementType": "labels.text",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          },
-          {
-            "featureType": "poi.business",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          },
-          {
-            "featureType": "road",
-            "elementType": "labels.icon",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          },
-          {
-            "featureType": "transit",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          }
-        ],
-        mapTypeId: 'roadmap',
-      }
+    if (this.map === null || this.map === undefined) {
+      console.log ('Error del puto GPS');
+      this.loading.dismiss ();  
+    } else {
+      this.loading.dismiss ();
+    } 
 
-      this.map = new google.maps.Map (this.mapRef.nativeElement, options);
+    google.maps.event.addListener(this.map, 'idle', () => {
+      let location = this.map.getCenter ();
+      
+      this.latitude = location.lat ();
+      this.longitude = location.lng ();
 
-      google.maps.event.addListener(this.map, 'idle', () => {
-        let location = this.map.getCenter ();
-        
-        this.latitude = location.lat ();
-        this.longitude = location.lng ();
+      let request = {
+        origin: location,
+        destination: location,
+        travelMode: google.maps.TravelMode.WALKING
+      };
+          
+      let placesService = new google.maps.places.PlacesService (this.map);
 
-        let request = {
-          origin: location,
-          destination: location,
-          travelMode: google.maps.TravelMode.WALKING
-        };
-            
-        let placesService = new google.maps.places.PlacesService (this.map);
-
-        this.directionsService.route(request, (result, status) => {
-          if (status == google.maps.DirectionsStatus.OK) {
-            let d = result.routes [0].legs [0].start_address;
-            let d_list = d.split (" ");;
-                
-            let _direccion = "";
-            for (let letter of d_list) {
-              if (letter != "Cusco," && letter != "Perú" && letter != "Cusco" && letter != "08000" && letter != "08000,") {
-              _direccion = _direccion + letter + " ";
-              }
-            }
-
-            if (_direccion.charAt (_direccion.length - 2) == ",") {
-              this.form.controls ["address"].setValue (_direccion.substring (0, _direccion.length - 2));
+      this.directionsService.route(request, (result, status) => {
+        if (status == google.maps.DirectionsStatus.OK) {
+          let d = result.routes [0].legs [0].start_address;
+          let d_list = d.split (" ");;
+              
+          let _direccion = "";
+          for (let letter of d_list) {
+            if (letter != "Cusco," && letter != "Perú" && letter != "Cusco" && letter != "08000" && letter != "08000,") {
+            _direccion = _direccion + letter + " ";
             }
           }
-        });
+
+          if (_direccion.charAt (_direccion.length - 2) == ",") {
+            this.form.controls ["address"].setValue (_direccion.substring (0, _direccion.length - 2));
+          }
+        }
       });
-
-      if (is_edit) {
-        try {
-          let elem = document.getElementById ('map-card');
-          elem.setAttribute("style", "opacity: 0.5;");
-        }catch (error) {
-          console.log (error);
-        }
-      } else {
-        try {
-          let elem = document.getElementById ('map-card');
-          elem.setAttribute("style", "opacity: 1;");
-        }catch (error) {
-          console.log (error);
-        }
-      }
-    }, error => {
-       console.log('Error getting location', error);
     });
+
+    if (is_edit) {
+      try {
+        let elem = document.getElementById ('map-card');
+        elem.setAttribute("style", "opacity: 0.5;");
+      }catch (error) {
+        console.log (error);
+      }
+    } else {
+      try {
+        let elem = document.getElementById ('map-card');
+        elem.setAttribute("style", "opacity: 1;");
+      }catch (error) {
+        console.log (error);
+      }
+    }
   }
 
   async getCurrentLocation () {
@@ -388,5 +397,63 @@ export class HomeDoctorPage implements OnInit {
 
   goHome () {
     this.navCtrl.navigateRoot ('home');
+  }
+
+  async checkGPSPermission () {
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+      .then ((result: any) => {
+        if (result.hasPermission) {
+          //alert ("Tiene permiso, preguntamos para prender el GPS");
+          //If having permission show 'Turn On GPS' dialogue
+          this.askToTurnOnGPS ();
+        } else {
+  
+          //If not having permission ask for permission
+          //alert ("No tiene permiso, preguntamos para ternerlo");
+          this.requestGPSPermission ();
+        }
+      },
+      err => {
+        alert (err);
+      }
+    );
+  }
+
+  askToTurnOnGPS () {
+    this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY)
+      .then(() => {
+        this.getLocationCoordinates ();
+      }, error => {
+        this.loading.dismiss ();
+        this.navCtrl.pop ();
+        console.log ('Error requesting location permissions ' + JSON.stringify(error))
+      });
+  }
+
+  async requestGPSPermission () {
+    this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+      if (canRequest) {
+        
+      } else {
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION)
+          .then(() => {
+            this.askToTurnOnGPS ();
+          }, error => {
+            this.loading.dismiss ();
+            this.navCtrl.pop ();
+            console.log ('requestPermission Error requesting location permissions ' + error)
+          }
+        );
+      }
+    });
+  }
+
+  async getLocationCoordinates () {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.InitMap (false, resp.coords.latitude, resp.coords.longitude);
+    }).catch((error) => {
+      this.loading.dismiss ();
+      console.log ('Error getting location' + error);
+    });
   }
 }
