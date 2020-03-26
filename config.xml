@@ -97,4 +97,10 @@
         <variable name="PLAY_SERVICES_LOCATION_VERSION" value="16.+" />
     </plugin>
     <engine name="android" spec="8.0.0" />
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>Get Position</string>
+    </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
+        <string>Get position</string>
+    </edit-config>
 </widget>
