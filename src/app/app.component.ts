@@ -43,7 +43,7 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      
+
       this.initNotification ();
 
       if (this.platform.is('android')) {
@@ -56,7 +56,7 @@ export class AppComponent {
   }
 
   initNotification () {
-    this.oneSignal.startInit('f62ec6a9-740d-4840-9149-bf759347ce60', '727960214488');
+    this.oneSignal.startInit('4409c630-ce33-4449-8a61-24cb6b9d659a', '727960214488');
     this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
     
     this.oneSignal.handleNotificationOpened().subscribe(async (jsonData: any) => {

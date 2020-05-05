@@ -344,6 +344,7 @@ export class HomeDoctorPage implements OnInit {
           country_name: this.pais_selected.name,
           country_dial_code: this.pais_selected.dial_code,
           country_code: this.pais_selected.code,
+          solicitante: 'partner'
         };
 
         if (this.is_edit) {

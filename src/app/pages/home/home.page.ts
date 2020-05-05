@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
               private navCtrl: NavController,
               private database: DatabaseService,
               private storage: StorageService) 
-  { 
+  {
 
   }
 

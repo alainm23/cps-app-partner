@@ -207,6 +207,7 @@ export class AmbulancePage implements OnInit {
           country_name: this.pais_selected.name,
           country_dial_code: this.pais_selected.dial_code,
           country_code: this.pais_selected.code,
+          solicitante: 'partner'
         };
 
         await this.database.addSendAmbulance (data, data.id);
@@ -217,7 +218,7 @@ export class AmbulancePage implements OnInit {
           destino: 'ambulance-check',
           mode: 'tags',
           clave: data.id,
-          tokens: 'Administrador,Admision'
+          tokens: 'Administrador,Admision',
         };
 
         this.api.pushNotification (push_data).subscribe (response => {
