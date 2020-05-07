@@ -113,6 +113,8 @@ export class ApiService {
   }
 
   pushNotification (data: any) {
+    data.tipo = 'admin';
+    
     let url = "https://api.cps.com.pe/api/send-notification";
     return this.http.post (url, data);
   }
