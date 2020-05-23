@@ -104,6 +104,10 @@ export class HomeDoctorPage implements OnInit {
     });
   }
 
+  goEmergency () {
+    this.navCtrl.navigateForward ('emergency');
+  }
+
   get_hours () {
     let list = [
       '00:00',
