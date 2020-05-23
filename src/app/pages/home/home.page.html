@@ -18,55 +18,61 @@
 <ion-content> 
   <ion-card *ngIf="ambulance" class="ambulance-card" (click)="goAmbulanceCheck ()">
     <ion-item color="danger" *ngIf="ambulance?.state === 'created'">
-      <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/imgs/ambulance.png">
-      </ion-thumbnail>
-        
-      <ion-label text-wrap>
-        <ion-text>
-          <h3><b>Ambulancia solicitada</b></h3>
-        </ion-text>
-        <p>Aún por confirmar</p>
+      <ion-avatar slot="start">
+        <img src="assets/imgs/ambulance.png">
+      </ion-avatar>
+
+      <ion-label style="margin-left: 1rem;">
+        <h2 class="label-white ion-text-wrap"><b>Ambulancia solicitada</b></h2>
+        <p class="ion-text-wrap">
+          Aún por confirmar
+        </p>
       </ion-label>
 
-      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+      <ion-button slot="end" color="white" fill="clear">
+        <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
     </ion-item>
 
     <ion-item color="blue" *ngIf="ambulance?.state === 'approved'">
-      <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/imgs/ambulance.png">
-      </ion-thumbnail>
-        
-      <ion-label text-wrap>
-        <ion-text>
-          <h3><b>Ambulancia solicitada</b></h3>
-        </ion-text>
-        <p>Aprobado, esperando que la ambulancia se ponga en camino</p>
+      <ion-avatar slot="start">
+        <img src="assets/imgs/ambulance.png">
+      </ion-avatar>
+
+      <ion-label style="margin-left: 1rem;">
+        <h2 class="label-white ion-text-wrap"><b>Ambulancia solicitada</b></h2>
+        <p class="ion-text-wrap">
+          Aprobado, esperando que la ambulancia se ponga en camino
+        </p>
       </ion-label>
 
-      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+      <ion-button slot="end" color="white" fill="clear">
+        <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
     </ion-item>
 
     <ion-item color="green" *ngIf="ambulance?.state === 'sent'">
-      <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/imgs/ambulance.png">
-      </ion-thumbnail>
-        
-      <ion-label text-wrap>
-        <ion-text>
-          <h3><b>Ambulancia solicitada</b></h3>
-        </ion-text>
-        <p>Enviado, Ambulancia en camino</p>
+      <ion-avatar slot="start">
+        <img src="assets/imgs/ambulance.png">
+      </ion-avatar>
+
+      <ion-label style="margin-left: 1rem;">
+        <h2 class="label-white ion-text-wrap"><b>Ambulancia solicitada</b></h2>
+      <p class="ion-text-wrap">
+        Ambulancia en camino
+      </p>
       </ion-label>
 
-      <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
+      <ion-button slot="end" color="white" fill="clear">
+        <ion-icon slot="icon-only" name="arrow-forward-outline"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-card>
 
   <ion-card *ngIf="home_pressure" class="ambulance-card" (click)="seeHomePressure ()">
     <ion-item color="blue" *ngIf="home_pressure?.state === 'created'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-10.jpg">
+        <img class="img-size" src="assets/imgs/iconos-10-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
@@ -81,7 +87,7 @@
 
     <ion-item color="red" *ngIf="home_pressure?.state === 'observed'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-10.jpg">
+        <img class="img-size" src="assets/imgs/iconos-10-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
@@ -94,9 +100,9 @@
       <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
 
-    <ion-item color="green" *ngIf="home_pressure?.state === 'approved'">
+    <ion-item color="success" *ngIf="home_pressure?.state === 'approved'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-10.jpg">
+        <img class="img-size" src="assets/imgs/iconos-10-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
@@ -109,9 +115,9 @@
       <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
 
-    <ion-item color="green" *ngIf="home_pressure?.state === 'completed'">
+    <ion-item color="success" *ngIf="home_pressure?.state === 'completed'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-10.jpg">
+        <img class="img-size" src="assets/imgs/iconos-10-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
@@ -128,7 +134,7 @@
   <ion-card *ngIf="home_doctor" class="ambulance-card" (click)="seeHomeDoctor ()">
     <ion-item color="blue" *ngIf="home_doctor?.state === 'created'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-06.jpg">
+        <img class="img-size" src="assets/icon/iconos-11-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
@@ -141,46 +147,52 @@
       <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
 
-    <ion-item color="red" *ngIf="home_doctor?.state === 'observed'">
+    <ion-item color="danger" *ngIf="home_doctor?.state === 'observed'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-06.jpg">
+        <img class="img-size" src="assets/icon/iconos-11-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
         <ion-text>
           <h3><b>Médico a domicilio</b></h3>
         </ion-text>
-        <p>Ver detalles...</p>
+        <p>Solicitud observada, ver detalles...</p>
       </ion-label>
 
       <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
 
-    <ion-item color="green" *ngIf="home_doctor?.state === 'approved'">
+    <ion-item color="success" *ngIf="home_doctor?.state === 'approved'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-06.jpg">
+        <img class="img-size" src="assets/icon/iconos-11-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
         <ion-text>
           <h3><b>Médico a domicilio</b></h3>
         </ion-text>
-        <p>Prosiga con el pago</p>
+        <p>Prosiga con la solicitud</p>
       </ion-label>
 
       <ion-button fill="outline" color="white" slot="end">Ver</ion-button>
     </ion-item>
 
-    <ion-item color="green" *ngIf="home_doctor?.state === 'completed'">
+    <ion-item color="success" *ngIf="home_doctor?.state === 'completed'">
       <ion-thumbnail slot="start">
-        <img class="img-size" src="assets/icon/iconos-06.jpg">
+        <img class="img-size" src="assets/icon/iconos-11-symbolic.png">
       </ion-thumbnail>
         
       <ion-label text-wrap>
         <ion-text>
           <h3><b>Médico a domicilio</b></h3>
         </ion-text>
-        <p>Pedido contra entrega</p>
+        <p *ngIf="home_doctor?.payment_type === 'online'" class="ion-text-wrap">
+          Pagado
+        </p>
+
+        <p *ngIf="home_doctor?.payment_type !== 'online'" class="ion-text-wrap">
+          Pedido contra entrega, pagar al mensajero
+        </p>
       </ion-label>
 
       <ion-button fill="outline" color="white" slot="end">Ver</ion-button>

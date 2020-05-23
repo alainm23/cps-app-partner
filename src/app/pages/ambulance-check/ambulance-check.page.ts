@@ -177,15 +177,37 @@ export class AmbulanceCheckPage implements OnInit {
         {
           text: 'Confirmar',
           handler: async (data) => {
-            const loading = await this.loadingController.create({
-              message: 'Procesando ...'
+            let loading = await this.loadingController.create ({
+              message: 'Procesando...'
             });
-          
-            await loading.present();
+            
+            await loading.present ();
 
-            await this.database.cancelSendAmbulance (this.ambulance_object, data.message);
-            loading.dismiss ();
-            this.goHome ();
+            this.database.cancelSendAmbulance (this.ambulance_object, data.message)
+              .then (() => {
+                let push_data = {
+                  titulo: 'Solicitud de ambulancia cancelada',
+                  detalle: 'El usuario cancelo su solicitud',
+                  destino: '',
+                  mode: 'tags',
+                  clave: '',
+                  tokens: 'Administrador'
+                };
+      
+                this.api.pushNotification (push_data).subscribe (response => {
+                  console.log ("Notificacion Enviada...", response);
+                  loading.dismiss ();
+                  this.goHome ();
+                }, error => {
+                  console.log ("Notificacion Error...", error);
+                  loading.dismiss ();
+                  this.goHome ();
+                });
+              })
+              .catch (() => {
+                loading.dismiss ();
+                this.goHome ();
+              });
           }
         }
       ]

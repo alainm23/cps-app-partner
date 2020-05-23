@@ -35,6 +35,7 @@ export class HomeDoctorCheckPage implements OnInit {
               public auth: AuthService,
               public api: ApiService,
               private storage: StorageService,
+              public toastController: ToastController,
               public loadingController: LoadingController,
               private geolocation: Geolocation) { }
 
@@ -130,9 +131,33 @@ export class HomeDoctorCheckPage implements OnInit {
             this.home_injection.last_message = data.message;
             this.home_injection.canceled_date = new Date ().toISOString ();
 
-            this.database.updateHomeDoctorCanceled (this.home_injection.id, this.home_injection, this.observations ).then ((response) => {
+            this.database.updateHomeDoctorCanceled (this.home_injection.id, this.home_injection, this.observations ).then (async (response) => {
               loading.dismiss ();
               this.goHome ();
+
+              const toast = await this.toastController.create({
+                message: 'Tu solicitud fue cancelada',
+                color: 'success',
+                position: 'top',
+                duration: 2000
+              });
+
+              toast.present ();
+
+              let push_data = {
+                titulo: 'Solicitud cancelada',
+                detalle: 'El usuario cancelo su solicitud de doctor a domicilio',
+                destino: 'doctor',
+                mode: 'tags',
+                clave: 'clave',
+                tokens: 'Administrador'
+              };
+  
+              this.api.pushNotification (push_data).subscribe (async response => {
+                console.log ("Notificacion Enviada...", response);
+              }, error => {
+                console.log ("Notificacion Error...", error);
+              });
             });
           }
         }
@@ -162,17 +187,9 @@ export class HomeDoctorCheckPage implements OnInit {
           await this.database.updateHomeDoctorContraEntrega (this.home_injection.id);
           loading.dismiss ();
 
-          const alert = await this.alertController.create({
-            header: 'Proceso exitoso!!!',
-            message: response.data.message,
-            buttons: ['OK']
-          });
-
-          alert.present();
-
           let push_data = {
-            titulo: 'Pedido de doctor a domicilio',
-            detalle: 'Un pedido de doctor a domicilio fue pagado',
+            titulo: 'Solicitud de doctor a domicilio',
+            detalle: 'El usuario confirmó la solicitud con método de pago contraentrega',
             destino: 'doctor',
             mode: 'tags',
             clave: this.home_injection.id,
@@ -188,13 +205,14 @@ export class HomeDoctorCheckPage implements OnInit {
           await this.database.updateHomeDoctorOnlinePaid (this.home_injection.id, response.data.transaccion_id);
           loading.dismiss ();
 
-          const alert = await this.alertController.create({
-            header: 'Proceso exitoso!!!',
-            message: response.data.message,
-            buttons: ['OK']
+          const toast = await this.toastController.create({
+            message: 'Proceso exitoso',
+            duration: 2000,
+            position: 'bottom',
+            color: 'success'
           });
-
-          alert.present();
+          
+          toast.present();
 
           let push_data = {
             titulo: 'Pedido de doctor a domicilio',

@@ -28,13 +28,20 @@
             <h1 *ngIf="!is_edit" class="title-label">Médico a domicilio</h1>
             <h1 *ngIf="is_edit" class="title-label">Editar médico a domicilio</h1>
             <p>Médico general</p>
+            <p class="ion-text-wrap" style="line-height: 1;">Luego de validar sus datos, procesaremos su solicitud.</p>
           </ion-label>
         </ion-item>
+
+        <div class="ion-text-center">
+          <ion-button expand="block" color="red" class="button round" (click)="goEmergency ()">
+            Es una emergencia
+          </ion-button>
+        </div>
 
         <form [formGroup]="form">
           <ion-list>
             <ion-item margin-top>
-              <ion-label position="stacked">Describa sus sintomas:</ion-label>
+              <ion-label style="font-size: 16px;" position="stacked">Sintomas:</ion-label>
               <ion-textarea rows="4" formControlName="note" placeholder="Ingrese texto"></ion-textarea>
             </ion-item>
 
@@ -106,7 +113,7 @@
 
           <div text-center>
             <ion-button *ngIf="!is_edit" class="no-border" color="blue" [disabled]="!form.valid" (click)="submit ()">
-              Pedir
+              Solicitar
             </ion-button>
 
             <ion-button *ngIf="is_edit" class="no-border" ion-button color="blue" [disabled]="!form.valid" (click)="submit ()">

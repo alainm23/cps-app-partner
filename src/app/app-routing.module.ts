@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'home-doctor-check', loadChildren: './pages/home-doctor-check/home-doctor-check.module#HomeDoctorCheckPageModule' },
   { path: 'home-nurse-check', loadChildren: './pages/home-nurse-check/home-nurse-check.module#HomeNurseCheckPageModule' },
   { path: 'payment', loadChildren: './modals/payment/payment.module#PaymentPageModule' },
-  { path: 'subcategorias', loadChildren: './modals/subcategorias/subcategorias.module#SubcategoriasPageModule' }
+  { path: 'subcategorias', loadChildren: './modals/subcategorias/subcategorias.module#SubcategoriasPageModule' },
 ];
 
 @NgModule({

@@ -1,8 +1,23 @@
 .button-image {
-  height: 24px;
+  width: 32px;
   margin-right: 1rem;
 }
 
 .color-red {
   color: red;
+}
+
+.button {
+  --border-radius: 10px;
+  height: 48px;
+  font-size: 15px !important;
+}
+
+.color-gray {
+  color: #8F8F8F;
+}
+
+.button-call {
+  width: 24px;
+  margin-right: 1rem;
 }

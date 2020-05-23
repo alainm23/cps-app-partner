@@ -30,13 +30,8 @@
         </div>
         
         <ion-list>
-          <ion-item>
-            <ion-label position="stacked">Dirección de envío</ion-label>
-            <ion-input formControlName="address" placeholder="Dirección de envío"></ion-input>
-          </ion-item>
-
           <div class="margin-left-xd">
-            <ion-label position="stacked">Número de teléfono</ion-label>
+            <ion-label position="stacked" style="font-size: 16px !important; font-weight: 600;">Número de teléfono</ion-label>
           </div>
 
           <ion-item>
@@ -49,26 +44,39 @@
             </ion-input>
           </ion-item>
 
-          <ion-card margin class="map-class">
+          <ion-button class="buuu" expand="block" size="small" color="white" (click)="selectOrigen ()">
+            Marcar mi ubicacion {{ editar_1 }}
+          </ion-button>
+
+          <ion-item *ngIf="form.value.latitude !== 0">
+            <ion-label position="stacked" style="font-size: 16px !important; font-weight: 600;">Dirección de envío</ion-label>
+            <ion-input formControlName="address" placeholder="Dirección de envío"></ion-input>
+          </ion-item>
+
+          <!-- <ion-card margin class="map-class">
             <div #map id="map"></div>
-          </ion-card>
+          </ion-card> -->
           
-          <div text-right class="margin-right">
+          <!-- <div text-right class="margin-right">
             <p class="text-danger" (click)="getCurrentLocation ()">Ubicación actual</p>
-          </div>
+          </div> -->
         </ion-list>
-        
-        <ion-grid>
-          <ion-row>
-            <ion-col size="8" offset="2">
-              <ion-button expand="block" color="blue" [disabled]="!form.valid" (click)="goConfirmAmbulance ()">
-                Ordenar
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
       </ion-col>
     </ion-row>
   </ion-grid>
   </form>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="8" offset="2">
+          <ion-button expand="block" color="blue" [disabled]="!form.valid" (click)="goConfirmAmbulance ()">
+            Solicitar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

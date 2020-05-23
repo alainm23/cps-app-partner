@@ -19,6 +19,8 @@ import { ModalController } from '@ionic/angular';
 
 // Modals
 import { SelectCountriesPage } from '../../modals/select-countries/select-countries.page';
+import { MapSelectPage } from '../../modals/map-select/map-select.page';
+
 @Component({
   selector: 'app-ambulance',
   templateUrl: './ambulance.page.html',
@@ -38,10 +40,10 @@ export class AmbulancePage implements OnInit {
     code: "PE"
   };
 
-  directionsService: any = new google.maps.DirectionsService ();
+  editar_1: string;
   constructor(public navCtrl: NavController,
               private database: DatabaseService,
-              private modalCtrl: ModalController,
+              private modalController: ModalController,
               private storage: StorageService,
               public loadingController: LoadingController,
               private api: ApiService,
@@ -51,129 +53,17 @@ export class AmbulancePage implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      phone_number: new FormControl (this.auth.user.phone_number, [Validators.required]),
-      address: new FormControl ('', [Validators.required])
+      phone_number: new FormControl ('', [Validators.required]),
+      address: new FormControl ("", [Validators.required]),
+      latitude: new FormControl (0, [Validators.required]),
+      longitude: new FormControl (0, [Validators.required])
     });
-
-    this.InitMap ();
   }
 
   goHome () {
     this.navCtrl.navigateRoot ('home');
   }
   
-  async InitMap () {
-    const loading = await this.loadingController.create({
-        message: 'Tu solicitud está en procesando... Espere un momento'
-      });
-    
-    await loading.present();
-    
-    this.geolocation.getCurrentPosition().then((resp) => {
-      loading.dismiss ();
-
-      let location = new google.maps.LatLng (resp.coords.latitude, resp.coords.longitude);
-
-      const options = {
-        center: location,
-        zoom: 15,
-        disableDefaultUI: true,
-        streetViewControl: false,
-        disableDoubleClickZoom: false,
-        clickableIcons: false,
-        scaleControl: true,
-        styles: [
-          {
-            "featureType": "poi",
-            "elementType": "labels.text",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          },
-          {
-            "featureType": "poi.business",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          },
-          {
-            "featureType": "road",
-            "elementType": "labels.icon",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          },
-          {
-            "featureType": "transit",
-            "stylers": [{
-              "visibility": "off"
-            }]
-          }
-        ],
-        mapTypeId: 'roadmap',
-      }
-
-      this.map = new google.maps.Map (this.mapRef.nativeElement, options);
-
-      google.maps.event.addListener(this.map, 'idle', () => {
-        let location = this.map.getCenter ();
-        
-        this.latitude = location.lat ();
-        this.longitude = location.lng ();
-
-        let request = {
-          origin: location,
-          destination: location,
-          travelMode: google.maps.TravelMode.WALKING
-        };
-            
-        let placesService = new google.maps.places.PlacesService (this.map);
-
-        this.directionsService.route(request, (result, status) => {
-          if (status == google.maps.DirectionsStatus.OK) {
-            let d = result.routes [0].legs [0].start_address;
-            
-            let d_list = d.split (" ");;
-                
-            let _direccion = "";
-            for (let letter of d_list) {
-              if (letter != "Cusco," && letter != "Perú" && letter != "Cusco" && letter != "08000" && letter != "08000,") {
-              _direccion = _direccion + letter + " ";
-              }
-            }
-
-            if (_direccion.charAt (_direccion.length - 2) == ",") {
-              this.form.controls ["address"].setValue (_direccion.substring (0, _direccion.length - 2));
-            }
-          }
-        });
-      });
-    }, error => {
-      loading.dismiss ();
-      console.log('Error getting location', error);
-    });
-  }
-
-  async getCurrentLocation () {
-    const loading = await this.loadingController.create({
-        message: 'Buscando su ubicación ...'
-      });
-    
-    await loading.present();
-
-    
-    this.geolocation.getCurrentPosition ().then (position => {
-      loading.dismiss().then(() => {
-      let lat = position.coords.latitude;
-      let lng = position.coords.longitude;
-
-      let location = new google.maps.LatLng (lat, lng);
-      this.map.setZoom (17);
-      this.map.panTo (location);
-      });
-    });
-  }
-
   async goConfirmAmbulance () {
     const loading = await this.loadingController.create({
       message: 'Procesando ...'
@@ -213,12 +103,12 @@ export class AmbulancePage implements OnInit {
         await this.database.addSendAmbulance (data, data.id);
 
         let push_data = {
-          titulo: 'Emergencia en progreso',
-          detalle: 'Una solicitud de ambulancia fue creada',
+          titulo: 'Emergencia',
+          detalle: 'Se solicito una ambulancia',
           destino: 'ambulance-check',
           mode: 'tags',
           clave: data.id,
-          tokens: 'Administrador,Admision',
+          tokens: 'Administrador,Admision'
         };
 
         this.api.pushNotification (push_data).subscribe (response => {
@@ -267,5 +157,49 @@ export class AmbulancePage implements OnInit {
     });
 
     return await modal.present();
+  }
+
+  async selectOrigen () {
+    const value = this.form.value;
+
+    const modal = await this.modalController.create({
+      component: MapSelectPage,
+      componentProps: {
+        latitude: this.latitude,
+        longitude: this.longitude,
+        address: value.address
+      }
+    });
+
+    modal.onDidDismiss ().then ((response: any) => {
+      if (response.role === 'ok') {
+        this.latitude = response.data.latitude;
+        this.longitude = response.data.longitude;
+        
+        this.editar_1 = "(Editar)";
+
+        this.form.controls ['latitude'].setValue (response.data.latitude);
+        this.form.controls ['longitude'].setValue (response.data.longitude);
+        this.form.controls ["address"].setValue (response.data.address);
+      }
+    });
+
+    return await modal.present();
+
+    // const value = this.form.value;
+
+    // let myModal = this.modalCtrl.create("MapSelectPage", {
+    //   latitude: this.latitude,
+    //   longitude: this.longitude,
+    //   address: value.address
+    // });
+
+    // myModal.onDidDismiss(data => {
+    //   if (data) {
+    //     
+    //   }
+    // });
+
+    // myModal.present();
   }
 }

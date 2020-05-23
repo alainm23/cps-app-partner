@@ -35,6 +35,7 @@ home_injection: any;
               private database: DatabaseService,
               public auth: AuthService,
               public api: ApiService,
+              private toastController: ToastController,
               private storage: StorageService,
               public loadingController: LoadingController,
               private geolocation: Geolocation) { }
@@ -131,9 +132,33 @@ home_injection: any;
             this.home_injection.last_message = data.message;
             this.home_injection.canceled_date = new Date ().toISOString ();
 
-            this.database.updateHomePressureCanceled (this.home_injection.id, this.home_injection, this.observations ).then ((response) => {
+            this.database.updateHomePressureCanceled (this.home_injection.id, this.home_injection, this.observations).then (async (response) => {
               loading.dismiss ();
               this.goHome ();
+              
+              const toast = await this.toastController.create({
+                message: 'Solicitud cancelada',
+                color: 'success',
+                position: 'top',
+                duration: 2000
+              });
+        
+              toast.present ();
+        
+              let push_data = {
+                titulo: 'Solicitud cancelada',
+                detalle: 'El usuario cancelo su solicitud de enfermera a domicilio',
+                destino: 'doctor',
+                mode: 'tags',
+                clave: 'clave',
+                tokens: 'Administrador'
+              };
+        
+              this.api.pushNotification (push_data).subscribe (async response => {
+                console.log ("Notificacion Enviada...", response);
+              }, error => {
+                console.log ("Notificacion Error...", error);
+              });
             });
           }
         }
@@ -163,18 +188,10 @@ home_injection: any;
           await this.database.updateHomePressureContraEntrega (this.home_injection.id);
           loading.dismiss ();
 
-          const alert = await this.alertController.create({
-            header: 'Proceso exitoso!!!',
-            message: response.data.message,
-            buttons: ['OK']
-          });
-
-          alert.present();
-
           let push_data = {
-            titulo: 'Pedido de doctor a domicilio',
-            detalle: 'Un pedido de doctor a domicilio fue pagado',
-            destino: 'doctor',
+            titulo: 'Solicitud de enfermera a domicilio',
+            detalle: 'El usuario confirmó la solicitud con método de pago contraentrega',
+            destino: 'presion',
             mode: 'tags',
             clave: this.home_injection.id,
             tokens: 'Administrador'
@@ -189,18 +206,19 @@ home_injection: any;
           await this.database.updateHomePressureOnlinePaid (this.home_injection.id, response.data.transaccion_id);
           loading.dismiss ();
 
-          const alert = await this.alertController.create({
-            header: 'Proceso exitoso!!!',
-            message: response.data.message,
-            buttons: ['OK']
+          const toast = await this.toastController.create({
+            message: 'Proceso exitoso',
+            duration: 2000,
+            position: 'bottom',
+            color: 'success'
           });
-
-          alert.present();
+          
+          toast.present();
 
           let push_data = {
-            titulo: 'Pedido de doctor a domicilio',
-            detalle: 'Un pedido de doctor a domicilio fue pagado',
-            destino: 'doctor',
+            titulo: 'Solicitud de enfermera a domicilio',
+            detalle: 'El usuario confirmó la solicitud con método de pago online',
+            destino: 'presion',
             mode: 'tags',
             clave: this.home_injection.id,
             tokens: 'Administrador'

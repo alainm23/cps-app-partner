@@ -45,13 +45,16 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { SelectCountriesPageModule } from './modals/select-countries/select-countries.module';
 import { PaymentPageModule } from './modals/payment/payment.module';
 import { SubcategoriasPageModule } from './modals/subcategorias/subcategorias.module';
+import { MapSelectPageModule } from './modals/map-select/map-select.module'; 
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule, 
-    IonicModule.forRoot(), 
+    IonicModule.forRoot({
+      mode: 'md'
+    }),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase, 'Clínica Peruano Suiza - Corporativo'),
     AngularFirestoreModule,
@@ -64,7 +67,8 @@ import { SubcategoriasPageModule } from './modals/subcategorias/subcategorias.mo
     //Modals
     SelectCountriesPageModule,
     PaymentPageModule,
-    SubcategoriasPageModule
+    SubcategoriasPageModule,
+    MapSelectPageModule
   ],
   providers: [
     StatusBar,

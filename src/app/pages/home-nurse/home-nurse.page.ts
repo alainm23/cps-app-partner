@@ -345,9 +345,9 @@ export class HomeNursePage implements OnInit {
 
           this.database.updateHomePressure (this._id, data).then ((response) => {
             let push_data = {
-              titulo: 'Pedido de enfermera a domicilio',
-              detalle: 'Un pedido de enfermera a domicilio fue corregido',
-              destino: 'doctor',
+              titulo: 'Solicitud de enfermera a domicilio',
+              detalle: 'Una solicitud de presión a domicilio fue corregido',
+              destino: 'presion',
               mode: 'tags',
               clave: uid,
               tokens: 'Administrador'
@@ -366,9 +366,9 @@ export class HomeNursePage implements OnInit {
         } else {
           this.database.addHomePressure (uid, data).then ((response) => {
             let push_data = {
-              titulo: 'Pedido de enfermera a domicilio',
-              detalle: 'Un pedido de enfermera a domicilio fue solicitado',
-              destino: 'doctor',
+              titulo: 'Pedido de presión a domicilio',
+              detalle: 'Un pedido de presión a domicilio fue solicitado',
+              destino: 'presion',
               mode: 'tags',
               clave: uid,
               tokens: 'Administrador'
