@@ -145,7 +145,7 @@ export class AmbulancePage implements OnInit {
   }
 
   async select_code () {
-    const modal = await this.modalCtrl.create({
+    const modal = await this.modalController.create({
       component: SelectCountriesPage,
       mode: 'ios',
     });
